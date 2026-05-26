@@ -110,7 +110,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 export const DefaultErrorFallback: React.FC<{
   error?: Error;
   resetError: () => void;
-}> = ({ error, resetError }) => (
+}> = ({ resetError }) => (
   <div className="min-h-[400px] flex items-center justify-center bg-gray-50 dark:bg-gray-900">
     <div className="text-center p-8 max-w-md">
       <div className="mb-4">
@@ -148,7 +148,7 @@ export const DefaultErrorFallback: React.FC<{
  * Hook for handling async errors in functional components
  */
 export const useErrorHandler = () => {
-  return React.useCallback((error: Error, context?: Record<string, any>) => {
+  return React.useCallback((error: Error, context?: Record<string, unknown>) => {
     logError(error, context);
   }, []);
 };

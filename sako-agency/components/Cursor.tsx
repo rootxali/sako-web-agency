@@ -40,9 +40,9 @@ export default function Cursor() {
     document.addEventListener("mousemove", onMove);
 
     const updateHoverEvents = () => {
-      document.querySelectorAll("a, button, [data-cursor]").forEach(el => {
-        el.addEventListener("mouseenter", onEnter as any);
-        el.addEventListener("mouseleave", onLeave);
+      document.querySelectorAll("a, button, [data-cursor]").forEach((el) => {
+        el.addEventListener("mouseenter", onEnter as EventListener);
+        el.addEventListener("mouseleave", onLeave as EventListener);
       });
     };
 

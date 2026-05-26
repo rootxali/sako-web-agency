@@ -27,44 +27,11 @@ const navItems = [
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+function Sidebar() {
+  const { data: session } = useSession();
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
-
-  useEffect(() => { setMounted(true); }, []);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/admin/login");
-    }
-  }, [status, router]);
-
-  useEffect(() => {
-    closeSidebar();
-  }, [pathname, closeSidebar]);
-
-  useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [sidebarOpen]);
-
-  if (status === "loading" || !mounted) {
-    return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#050505" }}>
-        <div style={{ width: 32, height: 32, border: "2px solid #c9a84c", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.6s linear infinite" }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
-
-  if (!session) return null;
-
-  const Sidebar = () => (
+  return (
     <aside className="admin-sidebar" style={{
       width: 260,
       minWidth: 260,
@@ -114,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </nav>
 
       <div style={{ borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: 16, marginTop: "auto" }}>
-        {session.user?.email && (
+        {session?.user?.email && (
           <p style={{ fontSize: 12, color: "rgba(245,240,232,0.4)", marginBottom: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {session.user.email}
           </p>
@@ -128,6 +95,39 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
     </aside>
   );
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/admin/login");
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [sidebarOpen]);
+
+  if (status === "loading") {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#050505" }}>
+        <div style={{ width: 32, height: 32, border: "2px solid #c9a84c", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.6s linear infinite" }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  if (!session) return null;
 
   return (
     <div className="admin-shell" style={{ display: "flex", minHeight: "100vh", background: "#050505", color: "#f5f0e8", fontFamily: "var(--font-outfit), sans-serif" }}>
@@ -139,7 +139,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          onClick={closeSidebar}
+          onClick={() => setSidebarOpen(false)}
           className="admin-overlay"
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 39 }}
         />

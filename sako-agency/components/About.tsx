@@ -65,7 +65,7 @@ export default function About() {
             </ScrollFloat>
           </div>
           <p style={{ maxWidth: "min(90vw, 640px)", margin: "3vh auto 0", fontSize: "clamp(0.95rem, 1.1vw, 1.25rem)", lineHeight: 1.8, color: "var(--cream-dim)" }}>
-            For founders who've been burned before — and want a partner that actually delivers results.
+            For founders who&apos;ve been burned before — and want a partner that actually delivers results.
           </p>
         </div>
 

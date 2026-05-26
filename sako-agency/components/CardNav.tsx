@@ -21,7 +21,6 @@ interface CardNavProps {
   items: CardNavItem[];
   className?: string;
   ease?: string;
-  baseColor?: string;
   menuColor?: string;
 }
 
@@ -29,7 +28,6 @@ const CardNav = ({
   items,
   className = "",
   ease = "power3.out",
-  baseColor = "rgba(8, 8, 8, 0.65)",
   menuColor = "#fff",
 }: CardNavProps) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);

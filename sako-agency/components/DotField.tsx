@@ -17,6 +17,7 @@ interface DotFieldProps {
   gradientFrom?: string;
   gradientTo?: string;
   glowColor?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -34,11 +35,13 @@ const DotField = memo(({
   gradientTo = 'rgba(201, 168, 76, 0.15)',   // Changed to Sako Gold
   glowColor = 'rgba(201, 168, 76, 0.05)',    // Changed to Sako Gold
   ...rest
-}: DotFieldProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}: DotFieldProps & { [key: string]: any }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const glowRef = useRef<SVGCircleElement>(null);
-  const dotsRef = useRef<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dotsRef = useRef<Record<string, any>[]>([]);
   const mouseRef = useRef({ x: -9999, y: -9999, prevX: -9999, prevY: -9999, speed: 0 });
   const rafRef = useRef<number | null>(null);
   const sizeRef = useRef({ w: 0, h: 0, offsetX: 0, offsetY: 0 });
@@ -86,7 +89,8 @@ const DotField = memo(({
     }
 
     function buildDots(w: number, h: number) {
-      const p: any = propsRef.current;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const p = propsRef.current as any;
       const step = p.dotRadius + p.dotSpacing;
       const cols = Math.floor(w / step);
       const rows = Math.floor(h / step);
@@ -131,7 +135,8 @@ const DotField = memo(({
       const dots = dotsRef.current;
       const m = mouseRef.current;
       const { w, h } = sizeRef.current;
-      const p: any = propsRef.current;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const p = propsRef.current as any;
       const len = dots.length;
       const t = frameCount * 0.02;
 
@@ -240,7 +245,6 @@ const DotField = memo(({
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

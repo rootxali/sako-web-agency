@@ -275,7 +275,7 @@ const ProfileCardComponent = ({
 
     const handleClick = () => {
       if (!enableMobileTilt || window.location.protocol !== 'https:') return;
-      const anyMotion = (window as any).DeviceMotionEvent;
+      const anyMotion = (window as Window & { DeviceMotionEvent?: typeof DeviceMotionEvent }).DeviceMotionEvent;
       if (anyMotion && typeof anyMotion.requestPermission === 'function') {
         anyMotion
           .requestPermission()

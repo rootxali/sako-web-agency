@@ -70,7 +70,7 @@ export default function Contact() {
       <div className="container section-pad">
         {/* Header */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "8vh" }}>
-          <span className="eyebrow" style={{ display: "block", marginBottom: "3vh" }}>— Let's Build Something</span>
+          <span className="eyebrow" style={{ display: "block", marginBottom: "3vh" }}>— Let&apos;s Build Something</span>
           <div style={{ width: "min(94vw, 980px)", margin: "0 auto" }}>
             <ScrollFloat
               animationDuration={1}
@@ -101,7 +101,7 @@ export default function Contact() {
             <div style={{ marginBottom: "6vh" }}>
               <h3 style={{ fontFamily: "'Cormorant',serif", fontSize: "clamp(28px, 2.5vw, 48px)", fontWeight: 400, marginBottom: "2vh" }}>Start the Conversation</h3>
               <p style={{ fontSize: "clamp(14px, 0.9vw, 24px)", color: "var(--cream-dim)", lineHeight: 1.8 }}>
-                Whether you're a startup ready to make noise, or an established brand that needs reinvention — we're built for this.
+                Whether you&apos;re a startup ready to make noise, or an established brand that needs reinvention — we&apos;re built for this.
               </p>
             </div>
 
@@ -144,7 +144,7 @@ export default function Contact() {
               <div style={{ textAlign: "center", padding: "10vh 4vw", border: "1px solid rgba(76,201,126,0.2)", borderRadius: "4px", background: "rgba(76,201,126,0.03)" }}>
                 <div style={{ fontFamily: "'Cormorant',serif", fontSize: "5vw", color: "#4cc97e", marginBottom: "3vh" }}>✓</div>
                 <h3 style={{ fontFamily: "'Cormorant',serif", fontSize: "clamp(28px, 2.5vw, 48px)", fontWeight: 400, marginBottom: "2vh" }}>Message received.</h3>
-                <p style={{ fontSize: "clamp(14px, 0.9vw, 18px)", color: "var(--cream-dim)", lineHeight: 1.8 }}>We'll review your project and respond within 24 hours. Get excited.</p>
+                <p style={{ fontSize: "clamp(14px, 0.9vw, 18px)", color: "var(--cream-dim)", lineHeight: 1.8 }}>We&apos;ll review your project and respond within 24 hours. Get excited.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2vh", position: "relative" }}>
