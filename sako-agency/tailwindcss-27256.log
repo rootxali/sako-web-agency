@@ -1,0 +1,106 @@
+2026-05-12T14:52:38.410653Z  INFO tailwindcss_oxide::scanner: Provided sources:
+2026-05-12T14:52:38.410736Z  INFO tailwindcss_oxide::scanner: Source: PublicSourceEntry { base: "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export", pattern: "**/*", negated: false }
+2026-05-12T14:52:38.410928Z  INFO tailwindcss_oxide::scanner: Optimized sources:
+2026-05-12T14:52:38.410977Z  INFO tailwindcss_oxide::scanner: Source: Auto { base: "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export" }
+2026-05-12T14:52:38.412731Z  INFO discover_sources: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.412832Z  INFO discover_sources:walk_synchronous: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.433331Z  INFO discover_sources:walk_synchronous: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.434550Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/AGENTS.md"
+2026-05-12T14:52:38.434585Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ProfileCard.tsx"
+2026-05-12T14:52:38.434588Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/layout.tsx"
+2026-05-12T14:52:38.434594Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/page.tsx"
+2026-05-12T14:52:38.434595Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/CardNav.tsx"
+2026-05-12T14:52:38.434591Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ThemeProvider.tsx"
+2026-05-12T14:52:38.434604Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Footer.tsx"
+2026-05-12T14:52:38.434612Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/lib/utils.ts"
+2026-05-12T14:52:38.434624Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Cursor.tsx"
+2026-05-12T14:52:38.434626Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Process.tsx"
+2026-05-12T14:52:38.434633Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/SmoothScroll.tsx"
+2026-05-12T14:52:38.434707Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/api/auth/register/route.ts"
+2026-05-12T14:52:38.434916Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/admin/layout.tsx"
+2026-05-12T14:52:38.434951Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/About.tsx"
+2026-05-12T14:52:38.435005Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/page.test.tsx"
+2026-05-12T14:52:38.435050Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/CLAUDE.md"
+2026-05-12T14:52:38.435134Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Contact.tsx"
+2026-05-12T14:52:38.435203Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ThemeToggle.tsx"
+2026-05-12T14:52:38.435264Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Hero.tsx"
+2026-05-12T14:52:38.435303Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/netlify.toml"
+2026-05-12T14:52:38.435394Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/DotField.tsx"
+2026-05-12T14:52:38.435458Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ScrollFloat.tsx"
+2026-05-12T14:52:38.435533Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/SocialHoverCard.tsx"
+2026-05-12T14:52:38.436227Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/MagicBento.tsx"
+2026-05-12T14:52:38.435800Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/admin/login/page.tsx"
+2026-05-12T14:52:38.435885Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/animate-ui/primitives/radix/hover-card.tsx"
+2026-05-12T14:52:38.435965Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/api/contact/route.ts"
+2026-05-12T14:52:38.436052Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/ScrollFloat.tsx"
+2026-05-12T14:52:38.436533Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Marquee.tsx"
+2026-05-12T14:52:38.436133Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/avatar.tsx"
+2026-05-12T14:52:38.435731Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/api/auth/[...nextauth]/route.ts"
+2026-05-12T14:52:38.436264Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/next.config.ts"
+2026-05-12T14:52:38.436359Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/lib/auth.ts"
+2026-05-12T14:52:38.436422Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ScrollProgress.tsx"
+2026-05-12T14:52:38.436486Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Team.tsx"
+2026-05-12T14:52:38.436064Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Work.tsx"
+2026-05-12T14:52:38.436611Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/admin/page.tsx"
+2026-05-12T14:52:38.436640Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/AuthProvider.tsx"
+2026-05-12T14:52:38.436736Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/demo/page.tsx"
+2026-05-12T14:52:38.436794Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/testimonial-marquee.tsx"
+2026-05-12T14:52:38.436830Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Nav.tsx"
+2026-05-12T14:52:38.436944Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/BlurText.tsx"
+2026-05-12T14:52:38.436999Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Services.tsx"
+2026-05-12T14:52:38.437050Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/package.json"
+2026-05-12T14:52:38.437125Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/lib/prisma.ts"
+2026-05-12T14:52:38.437182Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/public/next.svg"
+2026-05-12T14:52:38.437241Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/TestimonialMarquee.tsx"
+2026-05-12T14:52:38.437283Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/eslint.config.mjs"
+2026-05-12T14:52:38.437345Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/postcss.config.mjs"
+2026-05-12T14:52:38.437414Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Blog.tsx"
+2026-05-12T14:52:38.437498Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/prisma.config.ts"
+2026-05-12T14:52:38.437535Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/testimonial-v2.tsx"
+2026-05-12T14:52:38.437591Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/public/file.svg"
+2026-05-12T14:52:38.437740Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/Testimonials.tsx"
+2026-05-12T14:52:38.437744Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/cards.tsx"
+2026-05-12T14:52:38.437842Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/prisma/schema.prisma"
+2026-05-12T14:52:38.437888Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/lib/utils.test.ts"
+2026-05-12T14:52:38.437953Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/public/vercel.svg"
+2026-05-12T14:52:38.437999Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/README.md"
+2026-05-12T14:52:38.438114Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/motion-footer.tsx"
+2026-05-12T14:52:38.438163Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/testimonials-columns-1.tsx"
+2026-05-12T14:52:38.438165Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/tailwind.config.ts"
+2026-05-12T14:52:38.438230Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/STRUCTURE.md"
+2026-05-12T14:52:38.438299Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/public/window.svg"
+2026-05-12T14:52:38.438350Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/public/globe.svg"
+2026-05-12T14:52:38.438395Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/tsconfig.json"
+2026-05-12T14:52:38.438524Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/cinematic-footer.tsx"
+2026-05-12T14:52:38.438551Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/public/_redirects"
+2026-05-12T14:52:38.438634Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/vitest.config.ts"
+2026-05-12T14:52:38.438658Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/PricingSection.tsx"
+2026-05-12T14:52:38.439114Z  INFO discover_sources: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.439175Z  INFO extract_candidates: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.439212Z  INFO extract_candidates:parse_all_blobs: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.439243Z  INFO extract_candidates:parse_all_blobs:extract: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.440416Z  INFO extract_candidates:parse_all_blobs:extract: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.440466Z  INFO extract_candidates:parse_all_blobs: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.440501Z  INFO extract_candidates:read_all_files: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.440535Z  INFO extract_candidates:read_all_files: tailwindcss_oxide::scanner: Reading 7 file(s)
+2026-05-12T14:52:38.440855Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/app/globals.css"
+2026-05-12T14:52:38.440865Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/CardNav.css"
+2026-05-12T14:52:38.440870Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/MagicBento.css"
+2026-05-12T14:52:38.440870Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ScrollFloat.css"
+2026-05-12T14:52:38.440873Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/DotField.css"
+2026-05-12T14:52:38.440892Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ProfileCard.css"
+2026-05-12T14:52:38.440908Z  INFO tailwindcss_oxide::scanner: Reading "/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency-export/components/ui/ScrollFloat.css"
+2026-05-12T14:52:38.441186Z  INFO extract_candidates:read_all_files: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.441242Z  INFO extract_candidates:extract_css_variables: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.441282Z  INFO extract_candidates:extract_css_variables:extract: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.441448Z  INFO extract_candidates:extract_css_variables:extract: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.441493Z  INFO extract_candidates:extract_css_variables: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.441831Z  INFO extract_candidates: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.442596Z  INFO get_files: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.442635Z  INFO get_files:discover_sources: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.442665Z  INFO get_files:discover_sources: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.442774Z  INFO get_files: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.443027Z  INFO get_globs: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.443095Z  INFO get_globs:discover_sources: tailwindcss_oxide::scanner: enter
+2026-05-12T14:52:38.443126Z  INFO get_globs:discover_sources: tailwindcss_oxide::scanner: exit
+2026-05-12T14:52:38.478642Z  INFO get_globs: tailwindcss_oxide::scanner: exit
