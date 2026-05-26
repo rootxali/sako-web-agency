@@ -18,7 +18,11 @@ export async function POST(req: Request) {
   let body: any = null;
   try {
     body = await req.json();
-    const { name, email, company, service, budget, message } = body;
+    const { name, email, company, service, budget, message, _hp } = body;
+
+    if (_hp) {
+      return NextResponse.json({ message: "Message sent successfully" }, { status: 201 });
+    }
 
     if (!name || !email || !service || !message) {
       return NextResponse.json(

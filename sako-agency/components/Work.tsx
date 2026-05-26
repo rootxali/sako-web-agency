@@ -7,10 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const fallbackProjects = [
-  { id: 1, num: "001", title: "VALUE TECH", category: "Laptop Store & Electronics", services: "Web · SEO · E-Commerce", year: "2025", tag: "Case Study", url: "https://valuetech.pk", gradient: "linear-gradient(135deg,#1a0e00 0%,#0a0a0a 60%,#2a1500 100%)", accent: "#c9a84c", span: "col-2", result: "+340% sales growth" },
-  { id: 2, num: "002", title: "Project Name 2", category: "Sample Category", services: "Web · Design · Brand", year: "2025", tag: "Case Study", url: "https://example2.com", gradient: "linear-gradient(135deg,#001520 0%,#0a0a0a 70%,#001025 100%)", accent: "#4c8ec9", result: "Sample metric" },
-  { id: 3, num: "003", title: "Project Name 3", category: "Sample Category", services: "Web · UX · Motion", year: "2024", tag: "Concept", url: "https://example3.com", gradient: "linear-gradient(135deg,#0a1200 0%,#0a0a0a 70%,#121800 100%)", accent: "#7ec94c", result: "Sample achievement" },
-  { id: 4, num: "004", title: "Project Name 4", category: "Sample Category", services: "Design · Web · Branding", year: "2024", tag: "Case Study", url: "https://example4.com", span: "col-2", gradient: "linear-gradient(135deg,#0a0014 0%,#0a0a0a 70%,#120020 100%)", accent: "#9b4cc9", result: "Sample result" },
+  { id: 1, num: "001", title: "VALUE TECH", category: "Laptop Store & Electronics", services: "Web · SEO · E-Commerce", year: "2025", tag: "Case Study", url: "https://valuetech.pk", gradient: "linear-gradient(135deg,#1a0e00 0%,#0a0a0a 60%,#2a1500 100%)", accent: "#c9a84c", span: "col-2", result: "+340% sales growth", image: "/assest/valuetech.png" },
 ];
 
 interface WorkData {
@@ -24,11 +21,14 @@ interface WorkData {
   accent: string | null;
   result: string | null;
   tag: string | null;
+  image?: string | null;
 }
 
 export default function Work() {
   const sectionRef = useRef<HTMLElement>(null);
   const [projects, setProjects] = useState(fallbackProjects);
+
+  const projectImages = ["/assest/valuetech.png", "/assest/aliahmed.jpg", "/assest/atifmumtaz.png"];
 
   useEffect(() => {
     fetch("/api/work")
@@ -47,8 +47,9 @@ export default function Work() {
             gradient: w.gradient || "linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%)",
             accent: w.accent || "#c9a84c",
             result: w.result || "",
+            image: w.image || projectImages[i % projectImages.length],
             span: i % 3 === 0 ? "col-2" : "",
-          })));
+          })) as typeof fallbackProjects);
         }
       })
       .catch(() => {});
@@ -83,6 +84,7 @@ export default function Work() {
         <div className="work-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[40vh] gap-3">
           {projects.map(p => (
             <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className={`work-card relative overflow-hidden rounded-[4px] border border-[rgba(201,168,76,0.1)] cursor-none ${p.span === "col-2" ? "md:col-span-2 col-span-1" : "col-span-1"}`} style={{ textDecoration: "none", display: "block" }}>
+              <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${p.image})`, backgroundSize: "cover", backgroundPosition: "center" }} />
               <div style={{ position: "absolute", inset: 0, background: p.gradient }} />
               <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }} />
               <div className="card-overlay" style={{ position: "absolute", inset: 0, background: "rgba(5,5,5,0.4)" }} />

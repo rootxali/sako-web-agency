@@ -36,14 +36,12 @@ async function main() {
   console.log(`Seeded ${members.length} team members`);
 
   const workItems = [
-    { title: "VALUE TECH", category: "Laptop Store & Electronics", services: "Web · SEO · E-Commerce", year: "2025", url: "https://valuetech.pk", gradient: "linear-gradient(135deg,#1a0e00 0%,#0a0a0a 60%,#2a1500 100%)", accent: "#c9a84c", result: "+340% sales growth", tag: "Case Study", order: 1 },
-    { title: "Project Name 2", category: "Sample Category", services: "Web · Design · Brand", year: "2025", url: "https://example2.com", gradient: "linear-gradient(135deg,#001520 0%,#0a0a0a 70%,#001025 100%)", accent: "#4c8ec9", result: "Sample metric", tag: "Case Study", order: 2 },
-    { title: "Project Name 3", category: "Sample Category", services: "Web · UX · Motion", year: "2024", url: "https://example3.com", gradient: "linear-gradient(135deg,#0a1200 0%,#0a0a0a 70%,#121800 100%)", accent: "#7ec94c", result: "Sample achievement", tag: "Concept", order: 3 },
-    { title: "Project Name 4", category: "Sample Category", services: "Design · Web · Branding", year: "2024", url: "https://example4.com", gradient: "linear-gradient(135deg,#0a0014 0%,#0a0a0a 70%,#120020 100%)", accent: "#9b4cc9", result: "Sample result", tag: "Case Study", order: 4 },
+    { title: "VALUE TECH", category: "Laptop Store & Electronics", services: "Web · SEO · E-Commerce", year: "2025", url: "https://valuetech.pk", image: "/assest/valuetech.png", gradient: "linear-gradient(135deg,#1a0e00 0%,#0a0a0a 60%,#2a1500 100%)", accent: "#c9a84c", result: "+340% sales growth", tag: "Case Study", order: 1 },
   ];
 
   for (const item of workItems) {
-    await prisma.workItem.create({ data: item });
+    const existing = await prisma.workItem.findFirst({ where: { title: item.title } });
+    if (!existing) await prisma.workItem.create({ data: item });
   }
   console.log(`Seeded ${workItems.length} work items`);
 

@@ -110,6 +110,7 @@ model WorkItem {
   services  String?
   year      String?
   url       String?
+  image     String?
   gradient  String?
   accent    String?
   result    String?

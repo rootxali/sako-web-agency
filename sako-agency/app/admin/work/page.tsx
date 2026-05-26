@@ -10,6 +10,7 @@ interface WorkItemType {
   services: string | null;
   year: string | null;
   url: string | null;
+  image: string | null;
   gradient: string | null;
   accent: string | null;
   result: string | null;
@@ -19,7 +20,7 @@ interface WorkItemType {
 }
 
 const defaultForm = {
-  title: "", category: "", services: "", year: "", url: "", gradient: "", accent: "", result: "", tag: "", published: true, order: 0,
+  title: "", category: "", services: "", year: "", url: "", image: "", gradient: "", accent: "", result: "", tag: "", published: true, order: 0,
 };
 
 export default function WorkPage() {
@@ -51,7 +52,7 @@ export default function WorkPage() {
   };
 
   const startEdit = (w: WorkItemType) => {
-    setForm({ title: w.title, category: w.category || "", services: w.services || "", year: w.year || "", url: w.url || "", gradient: w.gradient || "", accent: w.accent || "", result: w.result || "", tag: w.tag || "", published: w.published, order: w.order });
+    setForm({ title: w.title, category: w.category || "", services: w.services || "", year: w.year || "", url: w.url || "", image: w.image || "", gradient: w.gradient || "", accent: w.accent || "", result: w.result || "", tag: w.tag || "", published: w.published, order: w.order });
     setEditing(w.id);
   };
 
@@ -77,6 +78,7 @@ export default function WorkPage() {
             </div>
             <input style={inputStyle} placeholder="Services (e.g. Web · SEO · E-Commerce)" value={form.services} onChange={(e) => setForm({ ...form, services: e.target.value })} />
             <input style={inputStyle} placeholder="URL" value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} />
+            <input style={inputStyle} placeholder="Image path (e.g. /assest/valuetech.png)" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} />
             <input style={inputStyle} placeholder="Tag (e.g. Case Study, Concept)" value={form.tag} onChange={(e) => setForm({ ...form, tag: e.target.value })} />
             <input style={inputStyle} placeholder="Result (e.g. +340% sales growth)" value={form.result} onChange={(e) => setForm({ ...form, result: e.target.value })} />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>

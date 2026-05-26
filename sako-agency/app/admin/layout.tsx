@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import {
   LayoutDashboard,
   FileText,
@@ -15,6 +14,7 @@ import {
   LogOut,
   Mail,
   Package,
+  Menu,
 } from "lucide-react";
 
 const navItems = [
@@ -31,6 +31,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -38,73 +44,147 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [status, router]);
 
-  if (status === "loading") {
+  useEffect(() => {
+    closeSidebar();
+  }, [pathname, closeSidebar]);
+
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [sidebarOpen]);
+
+  if (status === "loading" || !mounted) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#050505", color: "#c9a84c", fontFamily: "'Outfit', sans-serif" }}>
-        Loading...
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#050505" }}>
+        <div style={{ width: 32, height: 32, border: "2px solid #c9a84c", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.6s linear infinite" }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
-  if (!session) {
-    return null;
-  }
+  if (!session) return null;
+
+  const Sidebar = () => (
+    <aside className="admin-sidebar" style={{
+      width: 260,
+      minWidth: 260,
+      borderRight: "1px solid rgba(201,168,76,0.1)",
+      background: "#0a0908",
+      padding: "32px 24px",
+      display: "flex",
+      flexDirection: "column",
+      height: "100vh",
+      position: "sticky",
+      top: 0,
+    }}>
+      <div style={{ marginBottom: 48, display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid #c9a84c", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 16, height: 16, background: "#c9a84c", borderRadius: "50%" }} />
+        </div>
+        <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.2em", color: "#c9a84c" }}>SAKO</span>
+      </div>
+
+      <nav style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "12px 16px",
+                borderRadius: 12,
+                background: isActive ? "rgba(201,168,76,0.1)" : "transparent",
+                color: isActive ? "#c9a84c" : "rgba(245,240,232,0.6)",
+                textDecoration: "none",
+                fontSize: 14,
+                fontWeight: 500,
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = "rgba(201,168,76,0.05)"; }}
+              onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "transparent"; }}
+            >
+              <item.icon size={18} /> {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div style={{ borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: 16, marginTop: "auto" }}>
+        {session.user?.email && (
+          <p style={{ fontSize: 12, color: "rgba(245,240,232,0.4)", marginBottom: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {session.user.email}
+          </p>
+        )}
+        <button
+          onClick={() => signOut({ callbackUrl: "/admin/login" })}
+          style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", background: "none", border: "none", color: "rgba(245,240,232,0.6)", fontSize: 14, fontWeight: 500, cursor: "pointer", width: "100%", borderRadius: 12, transition: "all 0.2s" }}
+        >
+          <LogOut size={18} /> Sign Out
+        </button>
+      </div>
+    </aside>
+  );
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#050505", color: "#f5f0e8", fontFamily: "'Outfit', sans-serif" }}>
-      <aside style={{ width: "260px", borderRight: "1px solid rgba(201,168,76,0.1)", background: "#0a0908", padding: "32px 24px", display: "flex", flexDirection: "column", flexShrink: 0 }}>
-        <div style={{ marginBottom: "48px", display: "flex", alignItems: "center", gap: "12px" }}>
-          <div style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid #c9a84c", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ width: "16px", height: "16px", background: "#c9a84c", borderRadius: "50%" }} />
-          </div>
-          <span style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "0.2em", color: "#c9a84c" }}>SAKO</span>
-        </div>
+    <div className="admin-shell" style={{ display: "flex", minHeight: "100vh", background: "#050505", color: "#f5f0e8", fontFamily: "var(--font-outfit), sans-serif" }}>
+      {/* Desktop sidebar - always visible on lg+ */}
+      <div className="admin-sidebar-desktop">
+        <Sidebar />
+      </div>
 
-        <nav style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                  padding: "12px 16px",
-                  borderRadius: "12px",
-                  background: isActive ? "rgba(201,168,76,0.1)" : "transparent",
-                  color: isActive ? "#c9a84c" : "rgba(245,240,232,0.6)",
-                  textDecoration: "none",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  transition: "all 0.2s",
-                }}
-              >
-                <item.icon size={18} /> {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          onClick={closeSidebar}
+          className="admin-overlay"
+          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 39 }}
+        />
+      )}
 
-        <div style={{ borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: "16px", marginTop: "auto" }}>
-          {session.user?.email && (
-            <p style={{ fontSize: "12px", color: "rgba(245,240,232,0.4)", marginBottom: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {session.user.email}
-            </p>
-          )}
+      {/* Mobile drawer */}
+      <div className="admin-sidebar-mobile" style={{
+        position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 40,
+        transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
+        transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+      }}>
+        <Sidebar />
+      </div>
+
+      <main style={{ flex: 1, overflowY: "auto", minWidth: 0 }} className="admin-main">
+        <div className="admin-mobile-header" style={{ display: "none", alignItems: "center", marginBottom: 24, padding: "16px 16px 0" }}>
           <button
-            onClick={() => signOut({ callbackUrl: "/admin/login" })}
-            style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", background: "none", border: "none", color: "rgba(245,240,232,0.6)", fontSize: "14px", fontWeight: 500, cursor: "pointer", width: "100%", borderRadius: "12px", transition: "all 0.2s" }}
+            onClick={() => setSidebarOpen(true)}
+            style={{ background: "none", border: "none", color: "#c9a84c", cursor: "pointer", padding: 4, marginRight: "auto" }}
+            aria-label="Open menu"
           >
-            <LogOut size={18} /> Sign Out
+            <Menu size={24} />
           </button>
+          <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.2em", color: "#c9a84c" }}>SAKO</span>
+          <div style={{ width: 32, marginLeft: "auto" }} />
         </div>
-      </aside>
-
-      <main style={{ flex: 1, padding: "48px 64px", overflowY: "auto" }}>
-        {children}
+        <div style={{ padding: "48px 64px" }} className="admin-content">
+          {children}
+        </div>
       </main>
+
+      <style>{`
+        @media (max-width: 1023px) {
+          .admin-sidebar-desktop { display: none !important; }
+          .admin-mobile-header { display: flex !important; }
+          .admin-content { padding: 24px 16px !important; }
+          .admin-overlay { display: block !important; }
+        }
+        @media (min-width: 1024px) {
+          .admin-sidebar-desktop { display: flex !important; }
+          .admin-sidebar-mobile { display: none !important; }
+          .admin-overlay { display: none !important; }
+          .admin-mobile-header { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 }

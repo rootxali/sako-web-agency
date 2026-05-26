@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { title, category, services, year, url, gradient, accent, result, tag, order, published } = body;
+    const { title, category, services, year, url, image, gradient, accent, result, tag, order, published } = body;
 
     if (!title) {
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
@@ -29,6 +29,7 @@ export async function POST(req: Request) {
         services: services ? String(services).trim() : null,
         year: year ? String(year).trim() : null,
         url: url ? String(url).trim() : null,
+        image: image ? String(image).trim() : null,
         gradient: gradient ? String(gradient).trim() : null,
         accent: accent ? String(accent).trim() : null,
         result: result ? String(result).trim() : null,

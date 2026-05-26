@@ -12,7 +12,7 @@ const budgets = ["$5k – $15k", "$15k – $30k", "$30k – $75k", "$75k+"];
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [form, setForm] = useState({ name: "", email: "", company: "", service: "", budget: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", company: "", service: "", budget: "", message: "", _hp: "" });
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -147,7 +147,7 @@ export default function Contact() {
                 <p style={{ fontSize: "clamp(14px, 0.9vw, 18px)", color: "var(--cream-dim)", lineHeight: 1.8 }}>We'll review your project and respond within 24 hours. Get excited.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2vh" }}>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2vh", position: "relative" }}>
                 {/* Name + Company row */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "clamp(12px, 1vw, 18px)" }}>
                   {(["name", "company"] as const).map(f => (
@@ -192,6 +192,12 @@ export default function Contact() {
                       </select>
                     </div>
                   ))}
+                </div>
+
+                {/* Honeypot — invisible to humans */}
+                <div style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+                  <label htmlFor="_hp">Leave this empty</label>
+                  <input id="_hp" name="_hp" type="text" value={form._hp} onChange={handleChange} tabIndex={-1} autoComplete="off" />
                 </div>
 
                 {/* Message */}

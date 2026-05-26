@@ -19,7 +19,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
   try {
     const body = await req.json();
-    const { title, category, services, year, url, gradient, accent, result, tag, order, published } = body;
+    const { title, category, services, year, url, image, gradient, accent, result, tag, order, published } = body;
 
     const item = await prisma.workItem.update({
       where: { id },
@@ -29,6 +29,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         ...(services !== undefined && { services: String(services).trim() }),
         ...(year !== undefined && { year: String(year).trim() }),
         ...(url !== undefined && { url: String(url).trim() }),
+        ...(image !== undefined && { image: String(image).trim() }),
         ...(gradient !== undefined && { gradient: String(gradient).trim() }),
         ...(accent !== undefined && { accent: String(accent).trim() }),
         ...(result !== undefined && { result: String(result).trim() }),
