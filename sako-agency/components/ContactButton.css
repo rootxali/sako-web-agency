@@ -1,0 +1,80 @@
+:root {
+  --btn-dark: rgba(0,0,0,0.85);
+  --btn-white: #fff;
+  --btn-green: #4cc97e;
+  --btn-sand: #c9a84c;
+}
+.order-btn {
+  appearance: none;
+  border: 0;
+  background: var(--btn-dark);
+  position: relative;
+  height: 56px;
+  width: 100%;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.28s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.order-btn span {
+  --o: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+  color: var(--btn-white);
+  font-size: 14px;
+  font-weight: 700;
+  opacity: var(--o);
+  transition: opacity 0.25s ease;
+}
+.order-btn .default { transition-delay: 0.15s; }
+.order-btn .success { --offset: 16px; --o: 0; }
+.order-btn .success svg { width: 12px; height: 10px; vertical-align: top; fill: none; margin-left: 8px; stroke: var(--btn-green); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 16px; stroke-dashoffset: var(--offset); transition: stroke-dashoffset 0.3s ease; }
+.order-btn:active { transform: scale(0.98); }
+.order-btn .lines { opacity: 0; position: absolute; height: 3px; background: var(--btn-white); border-radius: 2px; width: 6px; top: 50%; left: 100%; transform: translateY(-50%); box-shadow: 15px 0 0 var(--btn-white), 30px 0 0 var(--btn-white), 45px 0 0 var(--btn-white), 60px 0 0 var(--btn-white); }
+.order-btn .truck { width: 60px; height: 41px; left: 100%; z-index: 1; top: 8px; position: absolute; transform: translateX(24px); }
+.order-btn .truck svg { width: clamp(90px, 22vw, 160px); height: auto; }
+.order-btn .box { width: 20px; height: 20px; right: 100%; top: 18px; position: absolute; background: linear-gradient(#edd9a9,#c9a84c); border-radius: 2px; }
+
+.order-btn.animate .default { --o: 0; transition-delay: 0s; }
+.order-btn.animate .success { --offset: 0; --o: 1; transition-delay: 2.8s; }
+.order-btn.animate .success svg { transition-delay: 3s; }
+.order-btn.animate .truck { animation: truck 4s ease forwards; }
+.order-btn.animate .truck:before { animation: door1 1.2s ease forwards 0.1s; }
+.order-btn.animate .truck:after { animation: door2 1.2s ease forwards 0.25s; }
+.order-btn.animate .box { animation: box 4s ease forwards; }
+.order-btn.animate .lines { animation: lines 4s ease forwards; }
+
+@keyframes truck {
+  0% { transform: translateX(110%); }
+  25% { transform: translateX(10%); }
+  50% { transform: translateX(-40%); }
+  75% { transform: translateX(-90%); }
+  100% { transform: translateX(24px); }
+}
+@keyframes lines {
+  0%, 30% { opacity: 0; transform: scaleY(0.7) translateX(0); }
+  35%, 65% { opacity: 1; }
+  70% { opacity: 0; }
+  100% { transform: scaleY(0.7) translateX(-180%); }
+}
+@keyframes door1 { 30%, 50% { transform: rotate(32deg); } }
+@keyframes door2 { 30%, 50% { transform: rotate(-32deg); } }
+@keyframes box {
+  8%, 10% { transform: translateX(28%); opacity: 1; }
+  25% { transform: translateX(78%); opacity: 1; }
+  26% { transform: translateX(78%); opacity: 0; }
+  27%, 100% { transform: translateX(0%); opacity: 0; }
+}
+
+/* make sure button content doesn't overlap on small screens */
+.order-btn .default, .order-btn .success { padding: 0 12px; white-space: nowrap; }

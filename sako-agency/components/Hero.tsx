@@ -1,11 +1,51 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import DotField from "./DotField";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+function AnimatedStat({ value, suffix = "", label, duration = 3000 }: { value: number; suffix?: string; label: string; duration?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const start = 0;
+    const end = value;
+    const ctx = gsap.context(() => {
+      gsap.fromTo({ val: start },
+        { val: start },
+        {
+          val: end,
+          duration: duration / 1000,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+          },
+          onUpdate: function () {
+            const v = Math.round(this.targets()[0].val);
+            setDisplay(v);
+          },
+        }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, [value, duration]);
+
+  return (
+    <div ref={ref} style={{ textAlign: "center" }}>
+      <div style={{ fontFamily: "'Cormorant',serif", fontSize: "clamp(18px, 2.2vw, 32px)", fontWeight: 300, color: "var(--gold)", lineHeight: 1 }}>
+        {display}{suffix}
+      </div>
+      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(9px, 0.6vw, 11px)", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--cream-dim)", marginTop: "0.5vh" }}>{label}</div>
+    </div>
+  );
+}
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -20,6 +60,7 @@ export default function Hero() {
   const badgeRef = useRef<HTMLDivElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const counterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 });
@@ -58,9 +99,9 @@ export default function Hero() {
   const scrollToContact = () => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
 
   const stats = [
-    { num: "240%", label: "Avg. revenue growth" },
-    { num: "80+", label: "Brands transformed" },
-    { num: "4", label: "Countries served" },
+    { value: 240, suffix: "%", label: "Avg. revenue growth", duration: 3000 },
+    { value: 80, suffix: "+", label: "Brands transformed", duration: 2800 },
+    { value: 4, suffix: "", label: "Countries served", duration: 2000 },
   ];
 
   return (
@@ -98,11 +139,26 @@ export default function Hero() {
       {/* Stats badge — top right */}
       <div ref={badgeRef} style={{ position: "absolute", top: "20vh", right: "4vw", gap: "2vw", opacity: 0 }} className="hidden lg:flex">
         {stats.map(s => (
-          <div key={s.num} style={{ textAlign: "center" }}>
-            <div style={{ fontFamily: "'Cormorant',serif", fontSize: "clamp(18px, 2.2vw, 32px)", fontWeight: 300, color: "var(--gold)", lineHeight: 1 }}>{s.num}</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(9px, 0.6vw, 11px)", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--cream-dim)", marginTop: "0.5vh" }}>{s.label}</div>
-          </div>
+          <AnimatedStat key={s.label} {...s} />
         ))}
+        {/* Floating particles behind stats */}
+        <div ref={counterRef} style={{ position: "absolute", inset: "-40px", pointerEvents: "none", zIndex: -1 }}>
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="counter-particle"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${20 + Math.random() * 50}%`,
+                width: `${2 + i % 3}px`,
+                height: `${2 + i % 3}px`,
+                animation: `card-float ${3 + i * 0.7}s ease-in-out infinite`,
+                animationDelay: `${i * 0.4}s`,
+                opacity: 0.2 + i * 0.05,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Main content */}

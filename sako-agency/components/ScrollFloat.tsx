@@ -46,7 +46,7 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
         ))}
         {wordIndex < words.length - 1 && (
           <span className="char space" aria-hidden="true">
-            {'\u00A0'}
+            {' '}
           </span>
         )}
       </span>

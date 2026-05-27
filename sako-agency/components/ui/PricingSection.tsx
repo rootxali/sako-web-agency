@@ -456,11 +456,11 @@ const STYLES = `
 const PRICING_DATA = {
   monthly: {
     free: 0,
-    pro: 1690,
+    pro: 110,
   },
   annual: {
     free: 0,
-    pro: 16900,
+    pro: 500,
   },
 };
 
@@ -482,17 +482,17 @@ const chartData = [
 const FREE_FEATURES = [
   "Free 1-page landing design (starter template)",
   "Responsive layout for mobile and desktop",
-  "Basic on-page SEO structure",
+  "No SEO optimization included",
   "No custom domain included",
   "No hosting included",
-  "Delivered as preview/file for approval",
+  "No ongoing support or updates",
 ];
 
 const CUSTOM_FEATURES = [
-  "Full custom design system & brand direction",
+  "Complete custom design system & brand direction",
   "Complex web app and portal development",
   "Headless CMS and API integrations",
-  "Advanced analytics and CRO roadmap",
+  "Custom Domain setup with Hosting support",
   "Technical SEO + content architecture",
   "Dedicated strategist, designer, and engineer",
   "Priority SLA and ongoing iteration cycles",

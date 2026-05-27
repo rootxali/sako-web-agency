@@ -524,3 +524,383 @@ body.hovering .cursor-dot {
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* ─── Magic Bento Grid Work Cards ─── */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes angle-spin {
+  to { --angle: 360deg; }
+}
+
+@keyframes glow-spin {
+  to { --glow-angle: 360deg; }
+}
+
+@keyframes border-glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes particle-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--drift-x), var(--drift-y)) scale(0); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes truck-shake {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-1px); }
+  75% { transform: translateY(1px); }
+}
+
+@keyframes smoke-puff {
+  0% { transform: scale(0.3) translateX(0); opacity: 0.6; }
+  100% { transform: scale(2) translateX(-100px); opacity: 0; }
+}
+
+@keyframes lock-secure {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(5deg); }
+  75% { transform: rotate(-3deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes success-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(76, 201, 126, 0.5); }
+  70% { box-shadow: 0 0 0 30px rgba(76, 201, 126, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 201, 126, 0); }
+}
+
+@keyframes data-stream {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.bento-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.2vw, 20px);
+  width: 100%;
+}
+
+.bento-work-card {
+  position: relative;
+  border-radius: clamp(12px, 1.2vw, 20px);
+  overflow: hidden;
+  cursor: none;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --glow-opacity: 0;
+  will-change: transform;
+}
+
+.bento-work-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: clamp(12px, 1.2vw, 20px);
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    rgba(201,168,76,0.4) 0%,
+    rgba(201,168,76,0.08) 20%,
+    rgba(255,255,255,0.03) 40%,
+    rgba(201,168,76,0.08) 60%,
+    rgba(201,168,76,0.4) 80%,
+    rgba(201,168,76,0.08) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 3;
+  animation: angle-spin 8s linear infinite;
+}
+
+.bento-work-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: clamp(12px, 1.2vw, 20px);
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgba(201,168,76,0.15) 0%,
+    transparent 50%
+  );
+  opacity: var(--glow-opacity);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bento-work-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(201,168,76,0.08);
+  --glow-opacity: 1;
+}
+
+.bento-work-card:hover::before {
+  animation-duration: 3s;
+}
+
+.bento-work-card .work-image {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bento-work-card:hover .work-image {
+  transform: scale(1.08);
+}
+
+.bento-work-card .work-content {
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bento-work-card:hover .work-content {
+  transform: translateY(-4px);
+}
+
+.bento-work-card .work-result {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bento-work-card:hover .work-result {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bento-work-card .work-gradient-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(5,5,5,0.9) 0%,
+    rgba(5,5,5,0.4) 40%,
+    rgba(5,5,5,0.1) 70%,
+    transparent 100%
+  );
+}
+
+.bento-work-card .work-glass-overlay {
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+@media (max-width: 1024px) {
+  .bento-work-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .bento-work-grid {
+    grid-template-columns: 1fr;
+  }
+  .bento-work-card {
+    min-height: 320px;
+  }
+  .bento-work-card::before {
+    animation: none;
+  }
+}
+
+/* ─── Pricing Glass Cards ─── */
+.pricing-gradient-border {
+  position: relative;
+  border-radius: clamp(16px, 1.4vw, 24px);
+}
+
+.pricing-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: clamp(16px, 1.4vw, 24px);
+  background: conic-gradient(
+    from var(--glow-angle, 0deg),
+    rgba(201,168,76,0.5) 0%,
+    rgba(201,168,76,0.1) 15%,
+    rgba(255,255,255,0.05) 30%,
+    rgba(201,168,76,0.1) 50%,
+    rgba(201,168,76,0.5) 65%,
+    rgba(201,168,76,0.1) 80%,
+    rgba(255,255,255,0.05) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 5;
+  animation: glow-spin 6s linear infinite;
+}
+
+.pricing-featured-float {
+  animation: card-float 6s ease-in-out infinite;
+}
+
+.pricing-featured-glow {
+  box-shadow: 0 0 60px rgba(201,168,76,0.1), 0 0 120px rgba(201,168,76,0.05);
+}
+
+.pricing-featured-glow:hover {
+  box-shadow: 0 0 80px rgba(201,168,76,0.15), 0 0 150px rgba(201,168,76,0.08);
+}
+
+.pricing-toggle-thumb {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Pricing Floating Particles ─── */
+.pricing-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.4);
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.3);
+}
+
+/* ─── Counter Section ─── */
+.counter-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.3);
+  pointer-events: none;
+}
+
+/* ─── Cinematic Contact Animation ─── */
+.contact-package {
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+  border: 1px solid rgba(201,168,76,0.3);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(201,168,76,0.1);
+}
+
+.contact-truck {
+  filter: drop-shadow(0 0 20px rgba(201,168,76,0.15));
+}
+
+.contact-truck-doors {
+  transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.contact-truck-doors.open {
+  transform: rotateX(-90deg);
+}
+
+.contact-security-glow {
+  animation: border-glow-pulse 1s ease-in-out 3;
+}
+
+.contact-success-pulse {
+  animation: success-pulse 2s ease-in-out infinite;
+}
+
+.contact-smoke-particle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(4px);
+}
+
+/* ─── Button Ripple ─── */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple-effect 0.6s ease-out forwards;
+}
+
+@keyframes ripple-effect {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ─── Scroll-triggered section divider ─── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+  margin: 2vh 0;
+}
+
+/* ─── Utility classes ─── */
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ─── Shimmer loading ─── */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(201,168,76,0.03) 25%,
+    rgba(201,168,76,0.08) 50%,
+    rgba(201,168,76,0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* ─── Scroll indicator refinements ─── */
+.scroll-indicator-line {
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(201,168,76,0.6), transparent);
+}
+
+/* ─── Responsive improvements ─── */
+@media(max-width: 480px) {
+  .bento-work-card {
+    border-radius: 12px;
+  }
+  .bento-work-card::before {
+    padding: 1px;
+  }
+}

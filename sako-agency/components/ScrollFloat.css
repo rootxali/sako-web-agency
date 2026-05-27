@@ -13,3 +13,19 @@
 .char {
   display: inline-block;
 }
+
+/* Keep characters grouped per-word but allow line breaks between words */
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.char.space {
+  display: inline-block;
+  width: 0.5ch;
+}
+
+/* Force the entire heading to remain on a single line when needed */
+.scroll-float-text.no-wrap {
+  white-space: nowrap;
+}

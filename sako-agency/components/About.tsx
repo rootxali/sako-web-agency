@@ -47,7 +47,7 @@ export default function About() {
               scrollStart="top bottom+=10%"
               scrollEnd="bottom center"
               stagger={0.02}
-              textClassName="font-display"
+              textClassName="font-display no-wrap"
               containerClassName="margin-0"
             >
               Business not growing?
