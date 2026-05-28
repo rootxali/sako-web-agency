@@ -62,17 +62,16 @@ export default function Hero() {
   const ringRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
 
-  const particlePositions = useMemo(
-    () =>
-      [...Array(6)].map((_, i) => ({
-        left: 20 + i * 15,
-        top: 20 + Math.random() * 50,
-        size: 2 + (i % 3),
-        delay: i * 0.4,
-        opacity: 0.2 + i * 0.05,
-      })),
-    []
-  );
+  const particlePositions = useMemo(() => {
+    const topOffsets = [24.84, 35.36, 21.2, 58.29, 21.13, 59.21];
+    return [...Array(6)].map((_, i) => ({
+      left: 20 + i * 15,
+      top: topOffsets[i],
+      size: 2 + (i % 3),
+      delay: i * 0.4,
+      opacity: 0.2 + i * 0.05,
+    }));
+  }, []);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 });
