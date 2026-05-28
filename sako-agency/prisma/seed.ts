@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 
@@ -44,6 +45,49 @@ async function main() {
     if (!existing) await prisma.workItem.create({ data: item });
   }
   console.log(`Seeded ${workItems.length} work items`);
+
+  const contactRequests = [
+    {
+      name: "Sophie Reed",
+      email: "sophie@brandco.com",
+      company: "BrandCo",
+      service: "Web Design & Dev",
+      budget: "$15k – $30k",
+      message: "Looking for a premium website refresh with conversion-first messaging.",
+      status: "PENDING",
+    },
+    {
+      name: "Omar Aziz",
+      email: "omar.aziz@example.com",
+      company: "Aziz Ventures",
+      service: "SEO & Growth",
+      budget: "$30k – $75k",
+      message: "Need a long-term growth strategy and technical SEO overhaul.",
+      status: "REVIEWED",
+    },
+  ];
+
+  for (const request of contactRequests) {
+    const existing = await prisma.contactRequest.findFirst({
+      where: {
+        name: request.name,
+        email: request.email,
+        service: request.service,
+      },
+    });
+    if (!existing) await prisma.contactRequest.create({ data: request });
+  }
+  console.log(`Seeded ${contactRequests.length} contact requests`);
+
+  const adminEmail = "admin@sako.agency";
+  const adminPassword = "SakoAdmin123!";
+
+  const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
+  if (!existingAdmin) {
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    await prisma.user.create({ data: { name: "SAKO Admin", email: adminEmail, password: hashedPassword } });
+    console.log(`Seeded admin user: ${adminEmail}`);
+  }
 
   const blogPosts = [
     {

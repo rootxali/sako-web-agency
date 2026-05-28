@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -40,8 +41,14 @@ export default async function BlogPage() {
                 style={{ textDecoration: "none", color: "inherit", borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(201,168,76,0.08)", background: "rgba(255,255,255,0.02)", transition: "border-color 0.3s" }}
               >
                 {post.image && (
-                  <div style={{ width: "100%", aspectRatio: "16/10", overflow: "hidden" }}>
-                    <img src={post.image} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.8s" }} />
+                  <div style={{ position: "relative", width: "100%", aspectRatio: "16/10", overflow: "hidden" }}>
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      style={{ objectFit: "cover", transition: "transform 0.8s" }}
+                      unoptimized
+                    />
                   </div>
                 )}
                 <div style={{ padding: "24px" }}>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Magnetic Bento Grid — TypeScript component library demo" />
+  <title>Magnetic Bento Grid</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       PAGE HEADER
+       ════════════════════════════════════════════════════════════════════════ -->
+  <header class="page-header" role="banner">
+    <p class="page-header__eyebrow">Component Library — v1.0.0</p>
+    <h1 class="page-header__title">Magnetic <em>Bento</em> Grid</h1>
+    <p class="page-header__sub">
+      Hover any cell. Track expansion is computed in O(n) arithmetic and
+      applied as CSS Custom Properties — the browser's layout engine handles
+      all interpolation on the GPU.
+    </p>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       DEMO GRID — 3 × 3
+       ─────────────────────────────────────────────────────────────────────
+       Container attributes map directly to BentoContainerAttributes:
+         data-bento-columns      → config.columns
+         data-bento-rows         → config.rows
+         data-bento-gap          → config.gap
+         data-bento-column-factor → config.expansion.columnFactor
+         data-bento-row-factor    → config.expansion.rowFactor
+         data-bento-duration     → config.motion.duration
+         data-bento-dim-opacity  → config.expansion.dimOpacity
+         data-bento-inner-scale  → config.expansion.innerContentScale
+         data-bento-keyboard     → config.keyboardAccessible
+       ════════════════════════════════════════════════════════════════════════ -->
+  <p class="section-label">3 × 3 Default Layout</p>
+
+  <main
+    class="bento-grid"
+    data-bento-grid
+    data-bento-columns="3"
+    data-bento-rows="3"
+    data-bento-gap="12"
+    data-bento-column-factor="2.4"
+    data-bento-row-factor="1.8"
+    data-bento-duration="450"
+    data-bento-collapse-delay="80"
+    data-bento-dim-opacity="0.35"
+    data-bento-inner-scale="1.04"
+    data-bento-keyboard="true"
+    aria-label="Magnetic bento grid demonstration"
+  >
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 1 — Analytics (col 0, row 0)
+         data-bento-cell: JSON-encoded BentoCellConfig
+         data-bento-col / data-bento-row: explicit grid placement
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell"
+      data-bento-cell='{"id":"analytics","label":"Analytics","sublabel":"Real-time pipeline metrics","icon":"📊","accent":"#6366f1","tag":"Live"}'
+      data-bento-col="0"
+      data-bento-row="0"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">📊</span>
+        <span class="bento-cell__tag">Live</span>
+        <h2 class="bento-cell__label">Analytics</h2>
+        <p class="bento-cell__sublabel">Real-time pipeline metrics</p>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 2 — Feature card spanning 2 columns (col 1, row 0, span 2)
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell bento-cell--feature"
+      data-bento-cell='{"id":"design-system","label":"Design System","sublabel":"Tokens, components & motion guidelines built for scale","icon":"🎨","accent":"#f59e0b","tag":"New","colSpan":2}'
+      data-bento-col="1"
+      data-bento-row="0"
+      data-bento-col-span="2"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🎨</span>
+        <span class="bento-cell__tag">New</span>
+        <h2 class="bento-cell__label">Design System</h2>
+        <p class="bento-cell__sublabel">Tokens, components & motion guidelines built for scale</p>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 3 — Stat cell spanning 2 rows (col 0, row 1, rowSpan 2)
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell bento-cell--stat bento-cell--dark"
+      data-bento-cell='{"id":"uptime","label":"Uptime","sublabel":"30-day average","icon":"⚡","accent":"#22c55e","tag":"Health","rowSpan":2}'
+      data-bento-col="0"
+      data-bento-row="1"
+      data-bento-row-span="2"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__tag">Health</span>
+        <span class="bento-cell__icon" aria-hidden="true">⚡</span>
+        <div>
+          <div class="bento-cell__stat-number">99.9%</div>
+          <div class="bento-cell__stat-label">Uptime — 30d avg</div>
+        </div>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 4 — Collaboration (col 1, row 1)
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell"
+      data-bento-cell='{"id":"collab","label":"Collab","sublabel":"Presence & multiplayer state sync","icon":"🤝","accent":"#ec4899","tag":"Beta"}'
+      data-bento-col="1"
+      data-bento-row="1"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🤝</span>
+        <span class="bento-cell__tag">Beta</span>
+        <h2 class="bento-cell__label">Collab</h2>
+        <p class="bento-cell__sublabel">Presence & multiplayer state sync</p>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 5 — Infrastructure (col 2, row 1)
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell"
+      data-bento-cell='{"id":"infra","label":"Infra","sublabel":"Edge nodes across 12 regions","icon":"🌐","accent":"#06b6d4","tag":"Global"}'
+      data-bento-col="2"
+      data-bento-row="1"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🌐</span>
+        <span class="bento-cell__tag">Global</span>
+        <h2 class="bento-cell__label">Infra</h2>
+        <p class="bento-cell__sublabel">Edge nodes across 12 regions</p>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 6 — Stat: Events (col 1, row 2)
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell bento-cell--stat"
+      data-bento-cell='{"id":"events","label":"Events","sublabel":"Processed today","icon":"🔥","accent":"#f97316","tag":"Today"}'
+      data-bento-col="1"
+      data-bento-row="2"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__tag">Today</span>
+        <span class="bento-cell__icon" aria-hidden="true">🔥</span>
+        <div>
+          <div class="bento-cell__stat-number">2.4M</div>
+          <div class="bento-cell__stat-label">Events processed</div>
+        </div>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <!-- ──────────────────────────────────────────────────────────────────────
+         CELL 7 — Security (col 2, row 2)
+         ────────────────────────────────────────────────────────────────────── -->
+    <article
+      class="bento-cell bento-cell--dark"
+      data-bento-cell='{"id":"security","label":"Security","sublabel":"Zero-trust posture verified","icon":"🔐","accent":"#a855f7","tag":"SOC 2"}'
+      data-bento-col="2"
+      data-bento-row="2"
+      tabindex="0"
+    >
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🔐</span>
+        <span class="bento-cell__tag">SOC 2</span>
+        <h2 class="bento-cell__label">Security</h2>
+        <p class="bento-cell__sublabel">Zero-trust posture verified</p>
+        <div class="bento-cell__rule" aria-hidden="true"></div>
+      </div>
+    </article>
+
+  </main><!-- /.bento-grid -->
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECOND DEMO GRID — 4 × 2
+       Demonstrates multiple independent instances on the same page.
+       Each BentoGrid instance is fully scoped — no shared state.
+       ════════════════════════════════════════════════════════════════════════ -->
+  <p class="section-label">4 × 2 Secondary Layout</p>
+
+  <section
+    class="bento-grid"
+    data-bento-grid
+    data-bento-columns="4"
+    data-bento-rows="2"
+    data-bento-gap="10"
+    data-bento-column-factor="2.0"
+    data-bento-row-factor="1.6"
+    data-bento-duration="380"
+    data-bento-dim-opacity="0.3"
+    data-bento-inner-scale="1.03"
+    style="height: clamp(280px, 30vh, 340px)"
+    aria-label="Secondary bento grid with 4 columns and 2 rows"
+  >
+
+    <article class="bento-cell" data-bento-cell='{"id":"s-deploy","label":"Deploy","sublabel":"One-click releases","icon":"🚀","accent":"#6366f1","tag":"CI/CD"}' tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🚀</span>
+        <span class="bento-cell__tag">CI/CD</span>
+        <h2 class="bento-cell__label">Deploy</h2>
+        <p class="bento-cell__sublabel">One-click releases</p>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+    <article class="bento-cell bento-cell--feature" data-bento-cell='{"id":"s-ai","label":"AI Studio","sublabel":"Prompt playground & fine-tuning","icon":"🤖","accent":"#a855f7","tag":"Alpha","colSpan":2}' data-bento-col-span="2" tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🤖</span>
+        <span class="bento-cell__tag">Alpha</span>
+        <h2 class="bento-cell__label">AI Studio</h2>
+        <p class="bento-cell__sublabel">Prompt playground & fine-tuning</p>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+    <article class="bento-cell" data-bento-cell='{"id":"s-keys","label":"API Keys","sublabel":"Rotate & audit","icon":"🗝️","accent":"#eab308","tag":"Auth"}' tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🗝️</span>
+        <span class="bento-cell__tag">Auth</span>
+        <h2 class="bento-cell__label">API Keys</h2>
+        <p class="bento-cell__sublabel">Rotate & audit</p>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+    <article class="bento-cell bento-cell--stat bento-cell--dark" data-bento-cell='{"id":"s-latency","label":"Latency","accent":"#22c55e","tag":"p99"}' tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__tag">p99</span>
+        <div>
+          <div class="bento-cell__stat-number">12ms</div>
+          <div class="bento-cell__stat-label">API latency</div>
+        </div>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+    <article class="bento-cell" data-bento-cell='{"id":"s-logs","label":"Logs","sublabel":"Structured & searchable","icon":"📋","accent":"#0ea5e9","tag":"Stream"}' tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">📋</span>
+        <span class="bento-cell__tag">Stream</span>
+        <h2 class="bento-cell__label">Logs</h2>
+        <p class="bento-cell__sublabel">Structured & searchable</p>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+    <article class="bento-cell" data-bento-cell='{"id":"s-alerts","label":"Alerts","sublabel":"PagerDuty integration","icon":"🔔","accent":"#ef4444","tag":"Ops"}' tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">🔔</span>
+        <span class="bento-cell__tag">Ops</span>
+        <h2 class="bento-cell__label">Alerts</h2>
+        <p class="bento-cell__sublabel">PagerDuty integration</p>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+    <article class="bento-cell bento-cell--feature" data-bento-cell='{"id":"s-sdk","label":"SDK","sublabel":"TypeScript-first client with full type coverage","icon":"📦","accent":"#f59e0b","tag":"v3","colSpan":2}' data-bento-col-span="2" tabindex="0">
+      <div class="bento-cell__glow"></div>
+      <div class="bento-cell__inner">
+        <span class="bento-cell__icon" aria-hidden="true">📦</span>
+        <span class="bento-cell__tag">v3</span>
+        <h2 class="bento-cell__label">SDK</h2>
+        <p class="bento-cell__sublabel">TypeScript-first client with full type coverage</p>
+        <div class="bento-cell__rule"></div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════════════════════ -->
+  <footer class="page-footer" role="contentinfo">
+    <span>Magnetic Bento Grid — Strict TypeScript · CSS Grid · Zero dependencies</span>
+    <span class="page-footer__badge">
+      <span class="page-footer__dot" aria-hidden="true"></span>
+      GPU Composited
+    </span>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       INLINE BOOTSTRAP SCRIPT
+       ─────────────────────────────────────────────────────────────────────
+       In a real TypeScript project, import from 'bento-grid.ts' via a
+       bundler (Vite, esbuild, tsc). For this self-contained demo we inline
+       a transpiled-equivalent IIFE so the page works without a build step.
+
+       The logic below is a faithful plain-JS rendering of BentoGrid and
+       initBentoGrids() from bento-grid.ts — all algorithms are identical.
+       ════════════════════════════════════════════════════════════════════════ -->
+  <script>
+    (() => {
+      'use strict';
+
+      /* ── Pure helpers ─────────────────────────────────────────────────── */
+
+      function readNum(el, attr, fallback) {
+        const v = el.getAttribute(attr);
+        if (v === null) return fallback;
+        const n = Number(v);
+        return Number.isFinite(n) ? n : fallback;
+      }
+
+      function readBool(el, attr, fallback) {
+        const v = el.getAttribute(attr);
+        return v === null ? fallback : v !== 'false';
+      }
+
+      function parseCellCfg(el) {
+        const raw = el.getAttribute('data-bento-cell');
+        if (!raw) return null;
+        try {
+          const p = JSON.parse(raw);
+          return (p && typeof p === 'object' && !Array.isArray(p) && typeof p.id === 'string')
+            ? p : null;
+        } catch { return null; }
+      }
+
+      /**
+       * Compute expanded track fr values.
+       * Invariant: Σ result === trackCount (mathematically guaranteed).
+       */
+      function computeExpanded(count, activeIdx, factor) {
+        const activeFr   = factor;
+        const otherPool  = count - activeFr;
+        const otherCount = count - 1;
+        const otherFr    = otherCount > 0 ? Math.max(otherPool / otherCount, 0.1) : 0;
+        return Array.from({ length: count }, (_, i) => i === activeIdx ? activeFr : otherFr);
+      }
+
+      function computeUniform(count) {
+        return Array.from({ length: count }, () => 1);
+      }
+
+      function buildTemplate(count, axis) {
+        const prefix = axis === 'column' ? 'col' : 'row';
+        return Array.from({ length: count }, (_, i) => `var(--${prefix}-${i})`).join(' ');
+      }
+
+      /* ── Config resolver ──────────────────────────────────────────────── */
+
+      const DEFAULTS = {
+        columns: 3, rows: 3, gap: 12,
+        columnFactor: 2.4, rowFactor: 1.8,
+        dimOpacity: 0.35, innerScale: 1.04,
+        duration: 450, collapseDelay: 80,
+        easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+        keyboard: true,
+      };
+
+      function resolveConfig(el) {
+        return {
+          columns:       readNum(el, 'data-bento-columns',       DEFAULTS.columns),
+          rows:          readNum(el, 'data-bento-rows',          DEFAULTS.rows),
+          gap:           readNum(el, 'data-bento-gap',           DEFAULTS.gap),
+          columnFactor:  readNum(el, 'data-bento-column-factor', DEFAULTS.columnFactor),
+          rowFactor:     readNum(el, 'data-bento-row-factor',    DEFAULTS.rowFactor),
+          dimOpacity:    readNum(el, 'data-bento-dim-opacity',   DEFAULTS.dimOpacity),
+          innerScale:    readNum(el, 'data-bento-inner-scale',   DEFAULTS.innerScale),
+          duration:      readNum(el, 'data-bento-duration',      DEFAULTS.duration),
+          collapseDelay: readNum(el, 'data-bento-collapse-delay',DEFAULTS.collapseDelay),
+          easing:        el.getAttribute('data-bento-easing') ?? DEFAULTS.easing,
+          keyboard:      readBool(el, 'data-bento-keyboard',     DEFAULTS.keyboard),
+        };
+      }
+
+      /* ── BentoGrid class ──────────────────────────────────────────────── */
+
+      class BentoGrid {
+        #cfg;
+        #cells    = [];
+        #meta     = new WeakMap();   // cell el → { colIndex, rowIndex, config }
+        #listeners= [];
+        #timer    = null;
+        #active   = null;            // currently active cell or null
+
+        constructor(container) {
+          this.#cfg = { container, ...resolveConfig(container) };
+          this.#setup();
+        }
+
+        #setup() {
+          const { container, columns, rows, gap, duration, easing,
+                  dimOpacity, innerScale } = this.#cfg;
+          const s = container.style;
+
+          // Structural custom properties
+          s.setProperty('--bento-gap',        `${gap}px`);
+          s.setProperty('--bento-duration',   `${duration}ms`);
+          s.setProperty('--bento-easing',     easing);
+          s.setProperty('--bento-dim-opacity',String(dimOpacity));
+          s.setProperty('--bento-inner-scale',String(innerScale));
+          s.setProperty('grid-template-columns', buildTemplate(columns, 'column'));
+          s.setProperty('grid-template-rows',    buildTemplate(rows, 'row'));
+
+          // Initial uniform tracks
+          computeUniform(columns).forEach((fr, i) => s.setProperty(`--col-${i}`, `${fr}fr`));
+          computeUniform(rows).forEach((fr, i)    => s.setProperty(`--row-${i}`, `${fr}fr`));
+
+          // Resolve cells
+          this.#cells = Array.from(container.children).filter(el => el instanceof HTMLElement);
+          this.#cells.forEach((el, idx) => {
+            const cfg = parseCellCfg(el) ?? { id: el.id || `c-${idx}`, label: `Cell ${idx+1}` };
+
+            const colAttr = el.getAttribute('data-bento-col');
+            const rowAttr = el.getAttribute('data-bento-row');
+            const colIdx = colAttr !== null ? parseInt(colAttr, 10) : idx % columns;
+            const rowIdx = rowAttr !== null ? parseInt(rowAttr, 10) : Math.floor(idx / columns);
+
+            this.#meta.set(el, { colIdx, rowIdx, config: cfg });
+            if (cfg.accent) el.style.setProperty('--cell-accent', cfg.accent);
+            el.setAttribute('role', 'article');
+            if (!el.id) el.id = `bento-${cfg.id}`;
+          });
+
+          // Event listeners
+          this.#cells.forEach(cell => {
+            this.#on(cell, 'mouseenter', () => this.#activate(cell));
+            this.#on(cell, 'mouseleave', () => this.#deactivate());
+            if (this.#cfg.keyboard) {
+              this.#on(cell, 'focus', () => this.#activate(cell));
+              this.#on(cell, 'blur',  () => this.#deactivate());
+            }
+          });
+          this.#on(container, 'mouseleave', () => this.#deactivate());
+
+          requestAnimationFrame(() => container.classList.add('bento-grid--ready'));
+        }
+
+        #activate(cell) {
+          if (this.#timer) { clearTimeout(this.#timer); this.#timer = null; }
+          if (this.#active === cell) return;
+          this.#active = cell;
+
+          const { container, columns, rows, columnFactor, rowFactor } = this.#cfg;
+          const meta = this.#meta.get(cell);
+          if (!meta) return;
+
+          const s = container.style;
+          computeExpanded(columns, meta.colIdx, columnFactor)
+            .forEach((fr, i) => s.setProperty(`--col-${i}`, `${fr}fr`));
+          computeExpanded(rows, meta.rowIdx, rowFactor)
+            .forEach((fr, i) => s.setProperty(`--row-${i}`, `${fr}fr`));
+
+          container.classList.add('bento-grid--dimmed');
+          this.#cells.forEach(c => c.classList.toggle('is-active', c === cell));
+        }
+
+        #deactivate() {
+          if (this.#timer) clearTimeout(this.#timer);
+          this.#timer = setTimeout(() => {
+            const { container, columns, rows } = this.#cfg;
+            const s = container.style;
+            computeUniform(columns).forEach((fr, i) => s.setProperty(`--col-${i}`, `${fr}fr`));
+            computeUniform(rows).forEach((fr, i)    => s.setProperty(`--row-${i}`, `${fr}fr`));
+            container.classList.remove('bento-grid--dimmed');
+            this.#cells.forEach(c => c.classList.remove('is-active'));
+            this.#active = null;
+            this.#timer = null;
+          }, this.#cfg.collapseDelay);
+        }
+
+        #on(target, type, fn) {
+          target.addEventListener(type, fn);
+          this.#listeners.push({ target, type, fn });
+        }
+
+        destroy() {
+          if (this.#timer) { clearTimeout(this.#timer); this.#timer = null; }
+          this.#listeners.forEach(({ target, type, fn }) =>
+            target.removeEventListener(type, fn));
+          this.#listeners.length = 0;
+          this.#cfg.container.classList.remove('bento-grid--ready', 'bento-grid--dimmed');
+          this.#cells.forEach(c => c.classList.remove('is-active'));
+        }
+      }
+
+      /* ── Auto-init all [data-bento-grid] containers ───────────────────── */
+
+      const instances = Array.from(
+        document.querySelectorAll('[data-bento-grid]')
+      ).map(el => new BentoGrid(el));
+
+      // Expose for devtools inspection
+      window.__bentoGrids = instances;
+
+    })();
+  </script>
+</body>
+</html>

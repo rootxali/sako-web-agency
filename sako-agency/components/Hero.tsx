@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, ChevronDown } from "lucide-react";
@@ -61,6 +61,18 @@ export default function Hero() {
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
+
+  const particlePositions = useMemo(
+    () =>
+      [...Array(6)].map((_, i) => ({
+        left: 20 + i * 15,
+        top: 20 + Math.random() * 50,
+        size: 2 + (i % 3),
+        delay: i * 0.4,
+        opacity: 0.2 + i * 0.05,
+      })),
+    []
+  );
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 });
@@ -143,18 +155,18 @@ export default function Hero() {
         ))}
         {/* Floating particles behind stats */}
         <div ref={counterRef} style={{ position: "absolute", inset: "-40px", pointerEvents: "none", zIndex: -1 }}>
-          {[...Array(6)].map((_, i) => (
+          {particlePositions.map((particle, i) => (
             <div
               key={i}
               className="counter-particle"
               style={{
-                left: `${20 + i * 15}%`,
-                top: `${20 + Math.random() * 50}%`,
-                width: `${2 + i % 3}px`,
-                height: `${2 + i % 3}px`,
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
                 animation: `card-float ${3 + i * 0.7}s ease-in-out infinite`,
-                animationDelay: `${i * 0.4}s`,
-                opacity: 0.2 + i * 0.05,
+                animationDelay: `${particle.delay}s`,
+                opacity: particle.opacity,
               }}
             />
           ))}

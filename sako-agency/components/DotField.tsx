@@ -17,7 +17,33 @@ interface DotFieldProps {
   gradientFrom?: string;
   gradientTo?: string;
   glowColor?: string;
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+interface DotData {
+  ax: number;
+  ay: number;
+  sx: number;
+  sy: number;
+  vx: number;
+  vy: number;
+  x: number;
+  y: number;
+}
+
+interface DotFieldState {
+  dotRadius: number;
+  dotSpacing: number;
+  cursorRadius: number;
+  cursorForce: number;
+  bulgeOnly: boolean;
+  bulgeStrength: number;
+  glowRadius: number;
+  sparkle: boolean;
+  waveAmplitude: number;
+  gradientFrom: string;
+  gradientTo: string;
+  glowColor: string;
 }
 
 const DotField = memo(({
@@ -38,14 +64,40 @@ const DotField = memo(({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const glowRef = useRef<SVGCircleElement>(null);
-  const dotsRef = useRef<any[]>([]);
+  const dotsRef = useRef<DotData[]>([]);
   const mouseRef = useRef({ x: -9999, y: -9999, prevX: -9999, prevY: -9999, speed: 0 });
   const rafRef = useRef<number | null>(null);
   const sizeRef = useRef({ w: 0, h: 0, offsetX: 0, offsetY: 0 });
   const glowOpacity = useRef(0);
   const engagement = useRef(0);
-  const propsRef = useRef({});
-  propsRef.current = { dotRadius, dotSpacing, cursorRadius, cursorForce, bulgeOnly, bulgeStrength, sparkle, waveAmplitude, gradientFrom, gradientTo };
+  const propsRef = useRef<DotFieldState>({
+    dotRadius,
+    dotSpacing,
+    cursorRadius,
+    cursorForce,
+    bulgeOnly,
+    bulgeStrength,
+    glowRadius,
+    sparkle,
+    waveAmplitude,
+    gradientFrom,
+    gradientTo,
+    glowColor,
+  });
+  propsRef.current = {
+    dotRadius,
+    dotSpacing,
+    cursorRadius,
+    cursorForce,
+    bulgeOnly,
+    bulgeStrength,
+    glowRadius,
+    sparkle,
+    waveAmplitude,
+    gradientFrom,
+    gradientTo,
+    glowColor,
+  };
   const rebuildRef = useRef<(() => void) | null>(null);
   const glowId = useId();
 
@@ -86,13 +138,13 @@ const DotField = memo(({
     }
 
     function buildDots(w: number, h: number) {
-      const p: any = propsRef.current;
+      const p = propsRef.current;
       const step = p.dotRadius + p.dotSpacing;
       const cols = Math.floor(w / step);
       const rows = Math.floor(h / step);
       const padX = (w % step) / 2;
       const padY = (h % step) / 2;
-      const dots = new Array(rows * cols);
+      const dots = new Array<DotData>(rows * cols);
       let idx = 0;
 
       for (let row = 0; row < rows; row++) {
@@ -131,7 +183,7 @@ const DotField = memo(({
       const dots = dotsRef.current;
       const m = mouseRef.current;
       const { w, h } = sizeRef.current;
-      const p: any = propsRef.current;
+      const p = propsRef.current;
       const len = dots.length;
       const t = frameCount * 0.02;
 

@@ -275,9 +275,13 @@ const ProfileCardComponent = ({
 
     const handleClick = () => {
       if (!enableMobileTilt || window.location.protocol !== 'https:') return;
-      const anyMotion = (window as any).DeviceMotionEvent;
-      if (anyMotion && typeof anyMotion.requestPermission === 'function') {
-        anyMotion
+      const deviceMotionEvent = (window as Window & {
+        DeviceMotionEvent?: {
+          requestPermission?: () => Promise<string>;
+        };
+      }).DeviceMotionEvent;
+      if (deviceMotionEvent && typeof deviceMotionEvent.requestPermission === 'function') {
+        deviceMotionEvent
           .requestPermission()
           .then((state: string) => {
             if (state === 'granted') {

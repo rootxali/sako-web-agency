@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -34,8 +35,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </header>
 
         {post.image && (
-          <div style={{ width: "100%", aspectRatio: "16/9", borderRadius: "16px", overflow: "hidden", marginBottom: "6vh" }}>
-            <img src={post.image} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", borderRadius: "16px", overflow: "hidden", marginBottom: "6vh" }}>
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              style={{ objectFit: "cover" }}
+              unoptimized
+            />
           </div>
         )}
 

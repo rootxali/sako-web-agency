@@ -21,7 +21,16 @@
   position: relative;
   overflow: hidden;
   will-change: height;
-  transition: border-radius 0.4s ease;
+  transition: border-radius 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(201, 168, 76, 0.1), transparent 28%), radial-gradient(circle at 80% 40%, rgba(232, 197, 106, 0.08), transparent 24%);
+  opacity: 0.85;
 }
 
 .card-nav.open {
@@ -174,9 +183,31 @@
   transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
+.nav-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.nav-card:hover::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .nav-card:hover {
-  border-color: rgba(201, 168, 76, 0.3);
+  border-color: rgba(201, 168, 76, 0.45);
   transform: translateY(-0.4vh);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
 }
 
 .nav-card-label {

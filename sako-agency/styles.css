@@ -1,0 +1,584 @@
+/**
+ * styles.css — Magnetic Bento Grid
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Architecture notes
+ * ──────────────────
+ * 1. CSS Custom Properties serve as the single channel between JS and CSS.
+ *    The TypeScript engine writes `--col-N` and `--row-N` values; CSS reads
+ *    them through `var()` in grid-template-columns / grid-template-rows.
+ *
+ * 2. Transitions are declared ONCE on the container. The browser's layout
+ *    engine handles interpolation — no JS animation loop required.
+ *
+ * 3. All colour/spacing decisions are expressed as design tokens (--token-*)
+ *    at :root, enabling straightforward theming without touching component CSS.
+ *
+ * 4. `will-change: grid-template-columns, grid-template-rows` hints to the
+ *    browser to promote this element to its own compositor layer, preventing
+ *    layout thrashing during the transition.
+ *
+ * 5. `transform: translateZ(0)` on cells forces GPU compositing for the
+ *    opacity and scale transitions — these run off the main thread entirely.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* DESIGN TOKENS                                                               */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap');
+
+:root {
+  /* Palette */
+  --color-bg:         #0a0a0f;
+  --color-surface:    #12121a;
+  --color-surface-2:  #1a1a26;
+  --color-border:     rgba(255, 255, 255, 0.06);
+  --color-text-primary:   #f0eff5;
+  --color-text-secondary: rgba(240, 239, 245, 0.45);
+  --color-text-muted:     rgba(240, 239, 245, 0.22);
+
+  /* Accent fallback (overridden per-cell) */
+  --cell-accent: #6c63ff;
+
+  /* Typography */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono:    'DM Mono', 'Fira Code', monospace;
+
+  /* Spacing scale */
+  --space-xs: 6px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+
+  /* Border radius */
+  --radius-cell: 20px;
+  --radius-pill: 100px;
+  --radius-icon: 14px;
+
+  /* Shadows */
+  --shadow-cell: 0 0 0 1px var(--color-border), 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-cell-active: 0 0 0 1px rgba(255,255,255,0.12), 0 8px 40px rgba(0,0,0,0.6);
+
+  /* Grid tokens (written by JS; fallbacks here keep CSS valid before JS runs) */
+  --bento-cols:     3;
+  --bento-rows:     3;
+  --bento-gap:      12px;
+  --bento-duration: 450ms;
+  --bento-easing:   cubic-bezier(0.25, 1, 0.5, 1);
+  --bento-dim-opacity:  0.35;
+  --bento-inner-scale:  1.04;
+
+  /* Default track values — overridden by JS per interaction */
+  --col-0: 1fr; --col-1: 1fr; --col-2: 1fr;
+  --col-3: 1fr; --col-4: 1fr; --col-5: 1fr;
+  --row-0: 1fr; --row-1: 1fr; --row-2: 1fr;
+  --row-3: 1fr; --row-4: 1fr; --row-5: 1fr;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* RESET & BASE                                                                */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  min-height: 100dvh;
+  padding: var(--space-xl) var(--space-lg);
+  overflow-x: hidden;
+}
+
+/* Grain overlay for depth */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* PAGE HEADER                                                                 */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.page-header {
+  max-width: 900px;
+  margin: 0 auto var(--space-xl);
+}
+
+.page-header__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.page-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.page-header__title em {
+  font-style: italic;
+  color: rgba(240, 239, 245, 0.5);
+}
+
+.page-header__sub {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* BENTO GRID CONTAINER                                                        */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.bento-grid {
+  /**
+   * Performance note: `will-change` promotes this element to a compositor
+   * layer. The browser can then interpolate `grid-template-columns` and
+   * `grid-template-rows` changes without triggering a full layout recalc
+   * on every frame — critical for smooth 60fps transitions on large grids.
+   *
+   * We intentionally do NOT set `will-change` on the cells themselves;
+   * too many promoted layers hurt memory on low-end devices.
+   */
+  will-change: grid-template-columns, grid-template-rows;
+
+  display: grid;
+  /* grid-template-* written by JS using var(--col-N) / var(--row-N) */
+  gap: var(--bento-gap);
+  max-width: 900px;
+  margin: 0 auto;
+  height: clamp(480px, 60vh, 680px);
+
+  /**
+   * Transition applied here, on the container that *owns* the layout.
+   * Transitioning on a parent prevents the need to add transitions to every
+   * individual child — cleaner architecture, fewer style recalcs.
+   */
+  transition:
+    grid-template-columns var(--bento-duration) var(--bento-easing),
+    grid-template-rows    var(--bento-duration) var(--bento-easing);
+}
+
+/* Before JS init — hide to prevent flash of un-styled grid */
+.bento-grid:not(.bento-grid--ready) {
+  opacity: 0;
+}
+
+/* Fade in on ready */
+.bento-grid--ready {
+  opacity: 1;
+  transition:
+    grid-template-columns var(--bento-duration) var(--bento-easing),
+    grid-template-rows    var(--bento-duration) var(--bento-easing),
+    opacity 300ms ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* CELL BASE                                                                   */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.bento-cell {
+  position: relative;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-cell);
+  padding: var(--space-md);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow-cell);
+
+  /**
+   * `transform: translateZ(0)` forces GPU compositing for the transitions
+   * below (opacity, transform on inner content). These can then run on the
+   * compositor thread — bypassing the main thread entirely.
+   */
+  transform: translateZ(0);
+
+  /* Opacity transition — governs the dimming state */
+  transition:
+    opacity var(--bento-duration) var(--bento-easing),
+    box-shadow var(--bento-duration) var(--bento-easing);
+
+  /* Focus outline */
+  outline: none;
+}
+
+.bento-cell:focus-visible {
+  box-shadow: var(--shadow-cell), 0 0 0 2px var(--cell-accent);
+}
+
+/* Subtle top-edge highlight (gives cells a frosted feel) */
+.bento-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Accent glow at top */
+.bento-cell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cell-accent), transparent);
+  opacity: 0;
+  transition: opacity var(--bento-duration) var(--bento-easing);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* CELL STATES                                                                 */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * Dimmed state: applied to ALL non-active cells when the container has
+ * `.bento-grid--dimmed`. The active cell retains full opacity via the
+ * `.is-active` override below.
+ *
+ * Using container-class + descendant selector (not individual cell classes)
+ * means a single class toggle on the container controls all siblings —
+ * O(1) DOM write instead of O(n).
+ */
+.bento-grid--dimmed .bento-cell:not(.is-active) {
+  opacity: var(--bento-dim-opacity);
+}
+
+.bento-cell.is-active {
+  opacity: 1;
+  box-shadow: var(--shadow-cell-active);
+}
+
+.bento-cell.is-active::after {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* CELL INNER CONTENT                                                          */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.bento-cell__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--space-xs);
+
+  /**
+   * Scale transform on inner content — NOT on the cell itself.
+   * Scaling the cell would cause layout recalc; scaling an absolutely-
+   * positioned or transformed descendant stays on the compositor thread.
+   */
+  transform-origin: top left;
+  transition: transform calc(var(--bento-duration) * 0.85) var(--bento-easing);
+}
+
+.bento-cell.is-active .bento-cell__inner {
+  transform: scale(var(--bento-inner-scale));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* CELL TYPOGRAPHY                                                             */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.bento-cell__icon {
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: auto;
+  display: block;
+  user-select: none;
+  filter: saturate(0.85);
+  transition: filter var(--bento-duration) var(--bento-easing);
+}
+
+.bento-cell.is-active .bento-cell__icon {
+  filter: saturate(1.2);
+}
+
+.bento-cell__tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cell-accent);
+  background: color-mix(in srgb, var(--cell-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cell-accent) 25%, transparent);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  width: fit-content;
+}
+
+.bento-cell__label {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.bento-cell__sublabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-top: var(--space-xs);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* CELL DECORATIVE BACKGROUNDS                                                 */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+/* Subtle radial glow behind icon area */
+.bento-cell__glow {
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 65%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--cell-accent) 18%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity var(--bento-duration) var(--bento-easing);
+  opacity: 0.6;
+}
+
+.bento-cell.is-active .bento-cell__glow {
+  opacity: 1;
+}
+
+/* Bottom line — accent coloured rule */
+.bento-cell__rule {
+  margin-top: auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--cell-accent),
+    transparent 70%
+  );
+  opacity: 0.3;
+  transition: opacity var(--bento-duration) var(--bento-easing);
+}
+
+.bento-cell.is-active .bento-cell__rule {
+  opacity: 0.7;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* SPECIFIC CELL VARIANTS                                                      */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+/* Large stat cell */
+.bento-cell--stat .bento-cell__stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-text-primary);
+  letter-spacing: -0.04em;
+  margin-top: auto;
+}
+
+.bento-cell--stat .bento-cell__stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* Wide feature cell (col-span 2) */
+.bento-cell--feature {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cell-accent) 14%, var(--color-surface)) 0%,
+    var(--color-surface) 60%
+  );
+}
+
+/* Dark card with grid pattern */
+.bento-cell--dark {
+  background-color: var(--color-bg);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* GRID SPANNING UTILITIES                                                     */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.bento-cell[data-bento-col-span="2"] { grid-column: span 2; }
+.bento-cell[data-bento-col-span="3"] { grid-column: span 3; }
+.bento-cell[data-bento-row-span="2"] { grid-row:    span 2; }
+.bento-cell[data-bento-row-span="3"] { grid-row:    span 3; }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* REDUCED MOTION                                                              */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * Fully respects the user's OS-level preference.
+ * All transitions collapse to near-instant; no easing, no kinetic feel.
+ * The grid still functions — only the motion is suppressed.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .bento-grid,
+  .bento-grid--ready,
+  .bento-cell,
+  .bento-cell__inner,
+  .bento-cell__icon,
+  .bento-cell__glow,
+  .bento-cell__rule,
+  .bento-cell::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* RESPONSIVE                                                                  */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  body {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .bento-grid {
+    height: auto;
+    min-height: 400px;
+    /* Collapse to simpler layout on small screens */
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  /* Disable magnetic expansion on touch devices — hover not applicable */
+  .bento-cell.is-active .bento-cell__inner {
+    transform: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* DEMO SECTION LABEL                                                          */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  max-width: 900px;
+  margin: var(--space-xl) auto var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* FOOTER                                                                      */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.page-footer {
+  max-width: 900px;
+  margin: var(--space-xl) auto 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.page-footer__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.page-footer__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}

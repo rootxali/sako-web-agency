@@ -21,11 +21,7 @@ export default function ScrollProgress() {
   return (
     <div
       ref={barRef}
-      style={{
-        position: "fixed", top: 0, left: 0, right: 0, height: "2px", zIndex: 1000,
-        background: "linear-gradient(90deg,#8b6914,#c9a84c,#e8c56a)",
-        transformOrigin: "left", transform: "scaleX(0)",
-      }}
+      className="scroll-progress-bar"
     />
   );
 }

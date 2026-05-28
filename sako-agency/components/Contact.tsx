@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Mail, MapPin, Clock, CheckCircle, Loader2 } from "lucide-react";
+import { Mail, MapPin, Clock, CheckCircle, Loader2 } from "lucide-react";
 import ScrollFloat from "./ScrollFloat";
 import "./ContactButton.css";
 
@@ -30,7 +30,7 @@ export default function Contact() {
   const successRef = useRef<HTMLDivElement>(null);
   const smokeRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const tlRef = useRef<any>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -230,7 +230,7 @@ export default function Contact() {
     const handleResize = () => {
       // if an animation is running, kill it so measurements can be recalculated on next submit
       if (tlRef.current) {
-        try { tlRef.current.kill(); } catch (e) { /* ignore */ }
+        try { tlRef.current.kill(); } catch { /* ignore */ }
         tlRef.current = null;
       }
     };
@@ -239,7 +239,7 @@ export default function Contact() {
       ctx.revert();
       window.removeEventListener("resize", handleResize);
       if (tlRef.current) {
-        try { tlRef.current.kill(); } catch (e) { /* ignore */ }
+        try { tlRef.current.kill(); } catch { /* ignore */ }
       }
     };
   }, []);
@@ -257,7 +257,7 @@ export default function Contact() {
 
       <div className="container section-pad">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "8vh" }}>
-          <span className="eyebrow" style={{ display: "block", marginBottom: "3vh" }}>— Let's Build Something</span>
+          <span className="eyebrow" style={{ display: "block", marginBottom: "3vh" }}>— Let&apos;s Build Something</span>
           <div style={{ width: "min(94vw, 980px)", margin: "0 auto" }}>
             <ScrollFloat
               animationDuration={1}
@@ -398,7 +398,7 @@ export default function Contact() {
                   <div>
                     <label style={{ display: "block", fontFamily: "'Syne',sans-serif", fontSize: "clamp(9px, 0.6vw, 16px)", fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: "1vh" }}>Tell us about your project *</label>
                     <textarea name="message" value={form.message} onChange={handleChange} required rows={4}
-                      placeholder="What are you building? What's the goal? Any challenges?"
+                      placeholder="What are you building? What&apos;s the goal? Any challenges?"
                       style={{ ...inputBase, padding: "clamp(14px, 2.5vh, 20px) clamp(12px, 1.5vw, 16px)", resize: "vertical", minHeight: "15vh" }}
                       onFocus={e => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.background = "rgba(201,168,76,0.03)"; }}
                       onBlur={e => { e.target.style.borderColor = "rgba(201,168,76,0.15)"; e.target.style.background = "rgba(255,255,255,0.03)"; }} />

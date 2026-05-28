@@ -22,9 +22,14 @@ export default function Cursor() {
       mouseY = e.clientY;
     };
 
-    const onEnter = (e: MouseEvent) => {
-      document.body.classList.add("hovering");
+    const isCursorDisabled = (target: HTMLElement) =>
+      target.closest('[data-cursor="none"]') !== null;
+
+    const onEnter = (e: Event) => {
       const target = e.currentTarget as HTMLElement;
+      if (isCursorDisabled(target)) return;
+
+      document.body.classList.add("hovering");
       if (target.getAttribute("data-cursor") === "magnetic") {
         isMagnetic = true;
         magneticTarget = target;
@@ -40,10 +45,12 @@ export default function Cursor() {
     document.addEventListener("mousemove", onMove);
 
     const updateHoverEvents = () => {
-      document.querySelectorAll("a, button, [data-cursor]").forEach(el => {
-        el.addEventListener("mouseenter", onEnter as any);
-        el.addEventListener("mouseleave", onLeave);
-      });
+      document
+        .querySelectorAll("a:not([data-cursor=\"none\"]), button:not([data-cursor=\"none\"]), [data-cursor]:not([data-cursor=\"none\"])")
+        .forEach(el => {
+          el.addEventListener("mouseenter", onEnter as any);
+          el.addEventListener("mouseleave", onLeave);
+        });
     };
 
     updateHoverEvents();

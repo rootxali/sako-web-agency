@@ -72,6 +72,18 @@ const updateCardGlowProperties = (
   card.style.setProperty("--glow-radius", `${radius}px`);
 };
 
+interface ParticleCardProps {
+  children: React.ReactNode;
+  className?: string;
+  disableAnimations?: boolean;
+  style?: React.CSSProperties;
+  particleCount?: number;
+  glowColor?: string;
+  enableTilt?: boolean;
+  clickEffect?: boolean;
+  enableMagnetism?: boolean;
+}
+
 const ParticleCard = ({
   children,
   className = "",
@@ -82,7 +94,7 @@ const ParticleCard = ({
   enableTilt = true,
   clickEffect = false,
   enableMagnetism = false,
-}: any) => {
+}: ParticleCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLElement[]>([]);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
@@ -321,13 +333,21 @@ const ParticleCard = ({
   );
 };
 
+interface GlobalSpotlightProps {
+  gridRef: React.RefObject<HTMLElement | null>;
+  disableAnimations?: boolean;
+  enabled?: boolean;
+  spotlightRadius?: number;
+  glowColor?: string;
+}
+
 const GlobalSpotlight = ({
   gridRef,
   disableAnimations = false,
   enabled = true,
   spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
   glowColor = DEFAULT_GLOW_COLOR,
-}: any) => {
+}: GlobalSpotlightProps) => {
   const spotlightRef = useRef<HTMLDivElement | null>(null);
   const isInsideSection = useRef(false);
 
@@ -370,7 +390,7 @@ const GlobalSpotlight = ({
         e.clientY <= rect.bottom;
 
       isInsideSection.current = mouseInside || false;
-      const cards = gridRef.current.querySelectorAll(".magic-bento-card");
+      const cards = gridRef.current.querySelectorAll<HTMLElement>(".magic-bento-card");
 
       if (!mouseInside) {
         gsap.to(spotlightRef.current, {
@@ -432,7 +452,7 @@ const GlobalSpotlight = ({
 
     const handleMouseLeave = () => {
       isInsideSection.current = false;
-      gridRef.current?.querySelectorAll(".magic-bento-card").forEach((card: HTMLElement) => {
+      gridRef.current?.querySelectorAll<HTMLElement>(".magic-bento-card").forEach((card: HTMLElement) => {
         card.style.setProperty("--glow-intensity", "0");
       });
       if (spotlightRef.current) {
