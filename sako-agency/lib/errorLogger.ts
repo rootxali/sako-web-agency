@@ -11,7 +11,7 @@ export interface ErrorContext {
   component?: string;
   action?: string;
   userId?: string;
-  additionalData?: Record<string, any>;
+  additionalData?: Record<string, unknown>;
 }
 
 export interface ErrorLogData {
@@ -22,8 +22,8 @@ export interface ErrorLogData {
   url?: string;
   userId?: string;
   ipAddress?: string;
-  browserInfo?: Record<string, any>;
-  additionalData?: Record<string, any>;
+  browserInfo?: Record<string, unknown>;
+  additionalData?: Record<string, unknown>;
 }
 
 /**
@@ -97,22 +97,9 @@ export const logWarning = async (
 };
 
 /**
- * Get client IP address (best effort)
- */
-const getClientIP = async (): Promise<string | undefined> => {
-  try {
-    // This is a simple approach - in production, you'd want to get IP from server-side
-    // For now, we'll leave it undefined as client-side IP detection is unreliable
-    return undefined;
-  } catch {
-    return undefined;
-  }
-};
-
-/**
  * Get browser information
  */
-const getBrowserInfo = (): Record<string, any> => {
+const getBrowserInfo = (): Record<string, unknown> => {
   if (typeof navigator === 'undefined') return {};
 
   return {
@@ -172,13 +159,15 @@ export function withErrorLogging<P extends object>(
   Component: React.ComponentType<P>,
   componentName?: string
 ): React.ComponentType<P> {
-  return class extends React.Component<P, { hasError: boolean }> {
+  const WithErrorLogging = class extends React.Component<P, { hasError: boolean }> {
+    static displayName?: string;
     constructor(props: P) {
       super(props);
       this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(error: Error) {
+     
+    static getDerivedStateFromError(_error: Error) {
       return { hasError: true };
     }
 
@@ -205,4 +194,7 @@ export function withErrorLogging<P extends object>(
       return React.createElement(Component, this.props);
     }
   };
+
+  WithErrorLogging.displayName = `WithErrorLogging(${componentName || Component.displayName || Component.name || 'Component'})`;
+  return WithErrorLogging;
 };

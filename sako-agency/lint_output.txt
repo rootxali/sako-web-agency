@@ -1,0 +1,190 @@
+
+> sako-agency@0.1.0 lint
+> eslint --fix
+
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx
+   36:10  warning  'Sidebar' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  135:31  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx:135:31
+  133 |   }, [sidebarOpen]);
+  134 |
+> 135 |   if (status === "loading" || !mountedRef.current) {
+      |                               ^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  136 |     return (
+  137 |       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#050505" }}>
+  138 |         <div style={{ width: 32, height: 32, border: "2px solid #c9a84c", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.6s linear infinite" }} />                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/refs
+  135:32  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx:135:32
+  133 |   }, [sidebarOpen]);
+  134 |
+> 135 |   if (status === "loading" || !mountedRef.current) {
+      |                                ^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  136 |     return (
+  137 |       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#050505" }}>
+  138 |         <div style={{ width: 32, height: 32, border: "2px solid #c9a84c", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.6s linear infinite" }} />
+
+To initialize a ref only once, check that the ref is null with the pattern `if (ref.current == null) { ref.current = ... }`                                                                                                                                                                                                                                                         react-hooks/refs
+  215:10  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx:215:10
+  213 |       {/* Desktop sidebar - always visible on lg+ */}
+  214 |       <div className="admin-sidebar-desktop">
+> 215 |         <Sidebar />
+      |          ^^^^^^^ This component is created during render
+  216 |       </div>
+  217 |
+  218 |       {/* Mobile overlay */}
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx:146:19
+  144 |   if (!session) return null;
+  145 |
+> 146 |   const Sidebar = () => (
+      |                   ^^^^^^^
+> 147 |     <aside className="admin-sidebar" style={{
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 148 |       width: 260,
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 208 |     </aside>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 209 |   );
+      | ^^^^ The component is created during render here
+  210 |
+  211 |   return (
+  212 |     <div className="admin-shell" style={{ display: "flex", minHeight: "100vh", background: "#050505", color: "#f5f0e8", fontFamily: "var(--font-outfit), sans-serif" }}>                                        react-hooks/static-components
+  233:10  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx:233:10
+  231 |         transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+  232 |       }}>
+> 233 |         <Sidebar />
+      |          ^^^^^^^ This component is created during render
+  234 |       </div>
+  235 |
+  236 |       <main style={{ flex: 1, overflowY: "auto", minWidth: 0 }} className="admin-main">
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/app/admin/layout.tsx:146:19
+  144 |   if (!session) return null;
+  145 |
+> 146 |   const Sidebar = () => (
+      |                   ^^^^^^^
+> 147 |     <aside className="admin-sidebar" style={{
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 148 |       width: 260,
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 208 |     </aside>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 209 |   );
+      | ^^^^ The component is created during render here
+  210 |
+  211 |   return (
+  212 |     <div className="admin-shell" style={{ display: "flex", minHeight: "100vh", background: "#050505", color: "#f5f0e8", fontFamily: "var(--font-outfit), sans-serif" }}>  react-hooks/static-components
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/bento-grid.ts
+   41:8   warning  'TrackDistribution' is defined but never used  @typescript-eslint/no-unused-vars
+  487:24  warning  'columns' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  487:33  warning  'rows' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/Blog.tsx
+  84:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/CardNav.tsx
+  32:3  warning  'baseColor' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/Cursor.tsx
+  51:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/Process.tsx
+  54:28  warning  'i' is defined but never used  @typescript-eslint/no-unused-vars
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ProfileCard.tsx
+  349:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  363:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/SmoothScroll.tsx
+  5:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/TestimonialMarquee.tsx
+  71:16  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ThemeToggle.tsx
+  14:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ThemeToggle.tsx:14:5
+  12 |   // useEffect only runs on the client, so now we can safely show the UI
+  13 |   useEffect(() => {
+> 14 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  15 |   }, []);
+  16 |
+  17 |   if (!mounted) {  react-hooks/set-state-in-effect
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/BlurText.tsx
+   6:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   6:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   9:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  98:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/PricingSection.tsx
+  558:6  warning  React Hook useEffect has a missing dependency: 'displayValue'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/ScrollFloat.tsx
+  83:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/cards.tsx
+   1:10  warning  'cn' is defined but never used                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   2:10  warning  'useState' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  25:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  37:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  49:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/motion-footer.tsx
+  180:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  184:71  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/testimonial-marquee.tsx
+  43:7   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  61:7   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  61:20  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/testimonial-v2.tsx
+    2:17  warning  'useState' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+    2:27  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  123:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/components/ui/testimonials-columns-1.tsx
+  41:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/run/media/cybermafia/New Volume/Antigravity/sako-agency-nextjs/sako-agency/lib/errorLogger.ts
+   14:35  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   25:32  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   26:35  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  102:7   warning  'getClientIP' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  115:43  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  175:10  error    Component definition is missing display name      react/display-name
+  181:37  warning  'error' is defined but never used                 @typescript-eslint/no-unused-vars
+
+✖ 48 problems (26 errors, 22 warnings)
+

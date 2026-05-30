@@ -38,7 +38,6 @@ import {
   type FractionalUnit,
   type GridAxis,
   type ResolvedCellMeta,
-  type TrackDistribution,
   type TrackIndex,
 } from './bento-types';
 
@@ -239,7 +238,7 @@ export class BentoGrid implements BentoGridInstance {
   readonly #cellMeta: WeakMap<HTMLElement, ResolvedCellMeta> = new WeakMap();
 
   // ── Listener registry for clean removal on destroy() ──────────────────────
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- EventTarget subtypes vary; stored as base type
+   
   readonly #listeners: Array<BoundListener<EventTarget, string>> = [];
 
   // ── Collapse timer handle ──────────────────────────────────────────────────
@@ -484,7 +483,7 @@ export class BentoGrid implements BentoGridInstance {
    * @param animated  - When false, suppresses transition (used on init).
    */
   #applyState(state: BentoGridState, animated: boolean): void {
-    const { container, columns, rows } = this.#config;
+    const { container } = this.#config;
     const s = container.style;
 
     // Toggle transition

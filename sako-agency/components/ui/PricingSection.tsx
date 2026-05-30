@@ -538,7 +538,7 @@ const PriceCounter = ({ value }: { value: number }) => {
   const [displayValue, setDisplayValue] = useState(value);
 
   useEffect(() => {
-    let start = displayValue;
+    const start = displayValue;
     const end = value;
     const duration = 600;
     const startTime = Date.now();
@@ -555,6 +555,7 @@ const PriceCounter = ({ value }: { value: number }) => {
     };
 
     requestAnimationFrame(animate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (

@@ -3,9 +3,11 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState, useMemo } from "react";
 
+ 
 const buildKeyframes = (from: any, steps: any[]) => {
   const keys = new Set([...Object.keys(from), ...steps.flatMap((s) => Object.keys(s))]);
 
+   
   const keyframes: Record<string, any[]> = {};
   keys.forEach((k) => {
     keyframes[k] = [from[k], ...steps.map((s) => s[k])];
@@ -21,7 +23,9 @@ interface BlurTextProps {
   direction?: "top" | "bottom";
   threshold?: number;
   rootMargin?: string;
+   
   animationFrom?: any;
+   
   animationTo?: any[];
   easing?: (t: number) => number | string;
   onAnimationComplete?: () => void;
@@ -95,6 +99,7 @@ const BlurText: React.FC<BlurTextProps> = ({
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
+         
         const spanTransition: any = {
           duration: totalDuration,
           times,

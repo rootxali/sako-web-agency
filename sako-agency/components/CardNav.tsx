@@ -29,6 +29,7 @@ const CardNav = ({
   items,
   className = "",
   ease = "power3.out",
+   
   baseColor = "rgba(8, 8, 8, 0.65)",
   menuColor = "#fff",
 }: CardNavProps) => {

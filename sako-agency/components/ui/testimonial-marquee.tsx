@@ -58,7 +58,7 @@ const Card = ({ card }: { card: TestimonialCardT }) => (
       className="text-[rgba(245,240,232,0.8)] leading-relaxed italic"
       style={{ fontSize: "clamp(13px, 0.9vw, 16px)", paddingTop: "clamp(12px, 2vh, 18px)" }}
     >
-      "{card.quote}"
+      &quot;{card.quote}&quot;
     </p>
   </div>
 );

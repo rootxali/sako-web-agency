@@ -51,7 +51,7 @@ export default function Process() {
           />
 
           <div className="process-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%, 200px),1fr))", gap: "clamp(16px, 2vw, 24px)" }}>
-            {steps.map((s, i) => (
+            {steps.map((s, _i) => (
               <div
                 key={s.n}
                 className="process-item"
